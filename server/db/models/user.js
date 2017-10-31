@@ -3,13 +3,37 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },
   password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  creditCardInfo: {
     type: Sequelize.STRING
+  },
+  shippingAddress: {
+    type: Sequelize.STRING
+  },
+  billingAddress: {
+    type: Sequelize.STRING
+  },
+  phone: {
+    type: Sequelize.STRING
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN
   },
   salt: {
     type: Sequelize.STRING
@@ -26,6 +50,10 @@ module.exports = User
  */
 User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt) === this.password
+}
+
+User.prototype.fullName = function () {
+  return `${this.firstName} ${this.lastName}`;
 }
 
 /**
