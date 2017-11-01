@@ -48,6 +48,10 @@ const User = db.define('user', {
   active: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
+  },
+  guestUser: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
