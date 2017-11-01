@@ -25,8 +25,10 @@ Order.belongsTo(User);
 User.hasMany(Order);
 
 //order table will have an order_beasts id
-Order.belongsTo(Order_Beasts);
-// Order.belongsToMany(Beast, {through: Order_Beasts});
+Order.belongsToMany(Beast, { through: Order_Beasts });
+
+//order table will have an order_beasts id
+Beast.belongsToMany(Order, { through: Order_Beasts });
 
 //look up all the user's review with user.getReviews()
 User.hasMany(Review);

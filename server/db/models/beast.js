@@ -44,7 +44,7 @@ const Beast = db.define('beast', {
     },
     //imageUrl
     price: {
-      type: Sequelize.FLOAT,
+      type: Sequelize.INTEGER,
       allowNull: false
     },
     //make int
