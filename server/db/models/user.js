@@ -21,7 +21,10 @@ const User = db.define('user', {
     allowNull: false
   },
   creditCardInfo: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate: {
+      isCreditCard: true
+    }
   },
   shippingAddress: {
     type: Sequelize.STRING
@@ -33,7 +36,8 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   isAdmin: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
   salt: {
     type: Sequelize.STRING
