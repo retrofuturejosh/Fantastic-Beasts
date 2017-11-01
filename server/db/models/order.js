@@ -4,13 +4,15 @@ const db = require('../db')
 
 const Order = db.define('order', {
   isOrdered: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
   sessionId: {
     type: Sequelize.INTEGER
   },
   orderDate: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    defaultValue: null
   }
 })
 
