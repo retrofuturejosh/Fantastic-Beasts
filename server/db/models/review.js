@@ -16,6 +16,7 @@ const Review = db.define('review', {
     },
     content: Sequelize.TEXT,
     image: Sequelize.STRING
+    //we actually should specify always that an image is act an image_url or imageUrl.
   })
   
   module.exports = Review

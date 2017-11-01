@@ -6,6 +6,7 @@ const Order = db.define('order', {
   isOrdered: {
     type: Sequelize.BOOLEAN
   },
+  //do we want status and isOrdered to be different fields?
   sessionId: {
     type: Sequelize.INTEGER
   },

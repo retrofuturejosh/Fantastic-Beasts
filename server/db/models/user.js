@@ -11,6 +11,8 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  //is null the right validation / only validation we need? 
+  //null is not the same as empty string.
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -53,6 +55,9 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   }
+  //ASk yourself if this should be here!
+  //ask if shipping address should be here as well.
+  
 })
 
 module.exports = User

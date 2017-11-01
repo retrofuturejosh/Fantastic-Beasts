@@ -7,6 +7,7 @@ const Beast = db.define('beast', {
       allowNull: false
     },
     characteristics: Sequelize.ARRAY(Sequelize.STRING),
+    //maybe a better way to think about categories separately.
     danger: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -41,12 +42,17 @@ const Beast = db.define('beast', {
       type: Sequelize.STRING,
       defaultValue: "https://lh6.ggpht.com/orPa7ldnMGUrBNVvO-EBedIIwXDByV_UI8H8-QZtEjU0zsoswiI4WCFDq2uehadCd8SH=h1080"
     },
+    //imageUrl
     price: {
       type: Sequelize.FLOAT,
       allowNull: false
     },
+    //make int
     breederInfo: Sequelize.JSON,
+    //use JSONB it's more versatile.
     quantity: Sequelize.INTEGER
+    //what else should we know about quantity.
+    //so maybe we should care about this number?
   })
   
   module.exports = Beast
