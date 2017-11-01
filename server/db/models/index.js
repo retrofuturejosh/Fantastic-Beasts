@@ -2,6 +2,7 @@ const User = require('./user');
 const Beast = require('./beast');
 const Review = require('./review');
 const Order = require('./order');
+const Order_Beasts = require('./order_beasts');
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -20,22 +21,16 @@ const Order = require('./order');
  //order table has user Id
 Order.belongsTo(User);
 
-//association table to look up all users orders
+//look up all the user's orders with user.getOrders()
 User.hasMany(Order);
-
-//'cart' table has an order id
-Order_Beasts.belongsTo(Order)
-
-//'cart' has beast id
-Order_Beasts.belongsTo(Beast);
 
 //order table will have an order_beasts id
 Order.belongsTo(Order_Beasts);
 
-//association table of all the user's reviews
+//look up all the user's review with user.getReviews()
 User.hasMany(Review);
 
-//association table of all the beast's reviews
+//look up all the beast's reviews with beast.getReviews()
 Beast.hasMany(Review);
 
 //review table has an author id from user id

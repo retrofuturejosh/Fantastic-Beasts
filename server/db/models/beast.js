@@ -6,7 +6,7 @@ const Beast = db.define('beast', {
       type: Sequelize.STRING,
       allowNull: false
     },
-    attributes: Sequlize.ARRAY(Sequelize.STRING),
+    characteristics: Sequelize.ARRAY(Sequelize.STRING),
     danger: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -27,7 +27,7 @@ const Beast = db.define('beast', {
       allowNull: false
     },
     careRequirements: {
-      type: Sequlize.ARRAY(Sequelize.STRING)
+      type: Sequelize.ARRAY(Sequelize.STRING)
     },
     training: {
       type: Sequelize.ENUM('none', 'slightly', 'moderately', 'very', 'completely'),

@@ -8,6 +8,14 @@ const Order_Beasts = db.define('order_beast', {
   },
   quantity: {
     type: Sequelize.INTEGER
+  },
+  orderId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  beastId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 })
 
