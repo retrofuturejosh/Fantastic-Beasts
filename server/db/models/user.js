@@ -5,36 +5,39 @@ const db = require('../db')
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   //is null the right validation / only validation we need? 
   //null is not the same as empty string.
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false
-  },
-  creditCardInfo: {
-    type: Sequelize.STRING,
+    allowNull: false,
     validate: {
-      isCreditCard: true
+      notEmpty: true
     }
   },
   shippingAddress: {
     type: Sequelize.STRING
   },
   billingAddress: {
-    type: Sequelize.STRING
-  },
-  phone: {
     type: Sequelize.STRING
   },
   isAdmin: {
@@ -50,10 +53,6 @@ const User = db.define('user', {
   active: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
-  },
-  guestUser: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
   }
   //ASk yourself if this should be here!
   //ask if shipping address should be here as well.

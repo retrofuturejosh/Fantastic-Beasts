@@ -15,7 +15,7 @@ const Review = db.define('review', {
        defaultValue: 'Review'
     },
     content: Sequelize.TEXT,
-    image: Sequelize.STRING
+    imageUrl: Sequelize.STRING
     //we actually should specify always that an image is act an image_url or imageUrl.
   })
   

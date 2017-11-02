@@ -4,9 +4,14 @@ const db = require('../db')
 const Beast = db.define('beast', {
     species: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
-    characteristics: Sequelize.ARRAY(Sequelize.STRING),
+    characteristics: {
+      type: Sequelize.ENUM('Land', 'Sea', 'Air', 'Fire')
+    },
     //maybe a better way to think about categories separately.
     danger: {
       type: Sequelize.INTEGER,
@@ -36,16 +41,16 @@ const Beast = db.define('beast', {
     },
     origin: {
       type: Sequelize.STRING,
-      allowNull: false
+      defaultValue: 'USA'
     },
-    image: {
+    imageUrl: {
       type: Sequelize.STRING,
       defaultValue: "https://lh6.ggpht.com/orPa7ldnMGUrBNVvO-EBedIIwXDByV_UI8H8-QZtEjU0zsoswiI4WCFDq2uehadCd8SH=h1080"
     },
     //imageUrl
     price: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      defaultValue: 1000
     },
     //make int
     breederInfo: Sequelize.JSON,
