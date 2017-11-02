@@ -9,8 +9,9 @@ const Beast = db.define('beast', {
         notEmpty: true
       }
     },
-    characteristics: {
-      type: Sequelize.ENUM('Land', 'Sea', 'Air', 'Fire')
+    category: {
+      type: Sequelize.ENUM('Land', 'Sea', 'Air', 'Fire'),
+      allowNull: false
     },
     //maybe a better way to think about categories separately.
     danger: {
@@ -33,7 +34,7 @@ const Beast = db.define('beast', {
       allowNull: false
     },
     careRequirements: {
-      type: Sequelize.ARRAY(Sequelize.STRING)
+      type: Sequelize.STRING
     },
     training: {
       type: Sequelize.ENUM('none', 'slightly', 'moderately', 'very', 'completely'),
