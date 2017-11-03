@@ -17,7 +17,7 @@ export const updateCart = (beastId) => dispatch => {
 export default function (cart = [], action){
     switch (action.type) {
         case ADD_TO_CART:
-            return cart.concat(action.beast)
+            return [...cart, action.beast]
         default:
             return cart
     }

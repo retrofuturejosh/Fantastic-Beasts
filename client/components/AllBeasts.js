@@ -47,9 +47,11 @@ export class AllBeasts extends Component {
           <h3>Cart</h3>
           {
             this.props.cart.length && this.props.cart.map(beast => {
-              <div>
+              return (
+              <div key={beast.id}>
                 <li>{beast.species}</li>
               </div>
+              )
             })
           }
         </div>
