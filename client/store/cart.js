@@ -20,7 +20,6 @@ export const updateCart = (beastId, quantity, storeCheck) => dispatch => {
             } else {
                 let addToStorage = beast.id + ' : ' + num
                 let currentStorage = localStorage.getItem('beastsInCart')
-                console.log('currentStorage =>', currentStorage)
                 if (!currentStorage) localStorage.setItem('beastsInCart', addToStorage)
                 else localStorage.setItem('beastsInCart', currentStorage + ' - ' + addToStorage)
                 dispatch(addToCart(beastToAdd))
