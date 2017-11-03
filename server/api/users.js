@@ -1,6 +1,6 @@
 const router = require('express').Router()
 module.exports = router
-const { User } = require('../db/models')
+const { User, Orders, Order_Beasts } = require('../db/models')
 
 router.get('/', (req, res, next) => {
   User.findAll({
@@ -15,14 +15,30 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
-  User.findById(id)
-    .then(user => res.json(user))
-    .catch(next)
+  User.findById(
+    id,
+    {
+      include: [{
+        model: Orders,
+        through: {
+          attributes: ['id', 'orderStatus', 'orderDate']
+        }
+        // include: [
+        //   {
+        //     model: Order_Beasts,
+        //     through: {
+        //       attributes: ['quantity', 'beastId']
+        //     }
+        //   }]
+        }]
+    })
+  .then(user => res.json(user))
+  .catch(next)
 })
 
 router.post('/', (req, res, next) => {
   User.findOrCreate({ where: req.body })
-    .spread(( user, _) => res.json(user))
+    .spread((user, _) => res.json(user))
     .catch(next);
 });
 
