@@ -7,14 +7,12 @@ import { beast } from '../store'
 * COMPONENT
 */
 export const SingleBeast = (props) => {
- const { beast } = props
- console.log(props)
-
- return (
+  const { beast } = props
+  return (
    <div>
      <h3>Current Beast is {`${beast.species}`} </h3>
    </div>
- )
+  )
 }
 
 /**
@@ -26,12 +24,5 @@ const mapState = (state, ownProps) => {
       id: ownProps.match.params.id
     }
   }
-  
-  export default connect(mapState)(SingleBeast)
-  
-//   /**
-//    * PROP TYPES
-//    */
-//   UserHome.propTypes = {
-//     email: PropTypes.string
-//   }
+
+export default connect(mapState)(SingleBeast)
