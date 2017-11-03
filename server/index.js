@@ -91,11 +91,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-<<<<<<< HEAD
 const syncDb = () => db.sync({ force: false })
-=======
-const syncDb = () => db.sync()
->>>>>>> 375f99a5dee3feeaa0d89d047b0caef6b4e4be0d
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

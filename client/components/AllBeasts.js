@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
-import {fetchBeasts, updateCart} from '../store'
+import { fetchBeasts, updateCart } from '../store'
 /**
  * COMPONENT
  */
@@ -19,7 +19,7 @@ export class AllBeasts extends Component {
       .getAllBeasts()
   }
 
-  handleClick (e) {
+  handleClick(e) {
     e.preventDefault()
     console.log('add to cart button clicked with value', e.target.value)
     console.log('props are', this.props)
@@ -37,20 +37,23 @@ export class AllBeasts extends Component {
               return (
                 <div key={beast.id}>
                   <li>{beast.species}</li>
-                  <button onClick={ this.handleClick } value={beast.id}>Add to Cart</button>
+                  <form onClick={ this.handleClick }>
+                    value={beast.id}>
+                    Add to Cart
+                  </form>
                 </div>
               )
             })
-  }
+          }
         </div>
         <div>
           <h3>Cart</h3>
           {
             this.props.cart.length && this.props.cart.map(beast => {
               return (
-              <div key={beast.id}>
-                <li>{beast.species}</li>
-              </div>
+                <div key={beast.id}>
+                  <li>{beast.species}</li>
+                </div>
               )
             })
           }
@@ -65,9 +68,9 @@ export class AllBeasts extends Component {
  * CONTAINER
  */
 const mapState = (state) => {
-  return { 
+  return {
     beasts: state.beasts,
-    cart: state.cart 
+    cart: state.cart
   }
 }
 
