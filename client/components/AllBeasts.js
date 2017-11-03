@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { fetchBeasts } from '../store'
 /**
@@ -28,7 +29,9 @@ export class AllBeasts extends Component {
       {
         this.props.beasts.length && this.props.beasts.map(beast => {
           return (
-            <li key={ beast.id }>{ beast.species }</li>
+            <Link key={ beast.id } to={`/singleBeast/${beast.id}`}>
+                <li >{ beast.species }</li>
+            </Link>
           )
         })
       }

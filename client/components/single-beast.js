@@ -7,8 +7,7 @@ import { beasts } from '../store'
 * COMPONENT
 */
 export const SingleBeast = (props) => {
- const { beast } = props
- console.log('line 11-is this an array?:',beast)
+ const beast = props.beast[0]
 
  return (
    <div>
@@ -32,8 +31,6 @@ export const SingleBeast = (props) => {
  * CONTAINER
  */
 const mapState = (state, ownProps) => {
-
- console.log('line 36-ownProps:',ownProps.match.params.id)
     return {
       beast: state.beasts.filter(beast => +ownProps.match.params.id === +beast.id)
     }
