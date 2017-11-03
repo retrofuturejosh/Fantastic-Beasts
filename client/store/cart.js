@@ -7,14 +7,24 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const addToCart = beastItem => ({ type: ADD_TO_CART, beastItem })
 
 //THUNK CREATOR
-export const updateCart = (beastId, quantity) => dispatch => {
+export const updateCart = (beastId, quantity, storeCheck) => dispatch => {
     axios.get(`/api/beasts/${beastId}`)
         .then(res => {
             let beast = res.data
             let num = Number(quantity)
             if (num === 0) num = 1;
             let beastToAdd = { beast, quantity: num }
-            dispatch(addToCart(beastToAdd))
+
+            if (storeCheck) {
+                dispatch(addToCart(beastToAdd))
+            } else {
+                let addToStorage = beast.id + ' : ' + num
+                let currentStorage = localStorage.getItem('beastsInCart')
+                console.log('currentStorage =>', currentStorage)
+                if (!currentStorage) localStorage.setItem('beastsInCart', addToStorage)
+                else localStorage.setItem('beastsInCart', currentStorage + ' - ' + addToStorage)
+                dispatch(addToCart(beastToAdd))
+            }
         })
         .catch(err => console.log(err))
 }

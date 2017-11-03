@@ -48,8 +48,10 @@ const createApp = () => {
     resave: false,
     saveUninitialized: false
   }))
+
   app.use(passport.initialize())
   app.use(passport.session())
+  // RIGHT HERE
 
   // auth and api routes
   app.use('/auth', require('./auth'))

@@ -11,10 +11,32 @@ export class AllBeasts extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.parseLocalCart = this.parseLocalCart.bind(this)
   }
 
   componentDidMount() {
+    let parsedCart
     this.props.getAllBeasts()
+    let storedCart = localStorage.getItem('beastsInCart')
+    if (storedCart) {
+      parsedCart = this.parseLocalCart(storedCart)
+      let beastIdArray = Object.keys(parsedCart)
+      beastIdArray.forEach(beastId => {
+        let quantity = parsedCart[beastId]
+        this.props.addToCart(beastId, quantity, true)
+      })
+    }
+  }
+
+  parseLocalCart = str => {
+    let result = {};
+    const items = str.split(' - ')
+    items.forEach(item => {
+      let beastIdx = item[0]
+      let quantity = item[4]
+      result[beastIdx] = quantity
+    })
+    return result
   }
 
   handleClick(e) {
@@ -35,25 +57,25 @@ export class AllBeasts extends Component {
                 <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
               </div>
             ) :
-            (
-              <div key={beast.id}>
-                <li>{beast.species}</li>
-                <form onSubmit={this.handleClick}>
-                  <button
-                    name="beastId"
-                    value={beast.id}
-                    type="submit">
-                    Add to Cart
+              (
+                <div key={beast.id}>
+                  <li>{beast.species}</li>
+                  <form onSubmit={this.handleClick}>
+                    <button
+                      name="beastId"
+                      value={beast.id}
+                      type="submit">
+                      Add to Cart
                   </button>
-                  <input
-                    placeholder="1"
-                    type="number"
-                    name="quantity"
-                    min="1"
-                    max={beast.quantity} />
-                </form>
-              </div>
-            )
+                    <input
+                      placeholder="1"
+                      type="number"
+                      name="quantity"
+                      min="1"
+                      max={beast.quantity} />
+                  </form>
+                </div>
+              )
           })
           }
         </div>
@@ -90,8 +112,8 @@ const mapDispatch = (dispatch) => {
     getAllBeasts: function () {
       dispatch(fetchBeasts())
     },
-    addToCart: function (beastId, quantity) {
-      dispatch(updateCart(beastId, quantity))
+    addToCart: function (beastId, quantity, storeCheck) {
+      dispatch(updateCart(beastId, quantity, storeCheck))
     }
   }
 }
