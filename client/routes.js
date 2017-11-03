@@ -4,7 +4,7 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, singleBeast} from './components'
+import {Main, Login, Signup, UserHome, singleBeast,allBeasts} from './components'
 import {me} from './store'
 
 /**
@@ -23,9 +23,10 @@ class Routes extends Component {
         <Main>
           <Switch>
             {/* Routes placed here are available to all visitors */}
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/singleBeast/:id" component={singleBeast} />
+            <Route exact path="/" component={allBeasts} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/singleBeast/:id" component={singleBeast} />
             {
               isLoggedIn &&
                 <Switch>
