@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
+
+import AllBeastsContainer from './AllBeasts'
 import {logout} from '../store'
 
 /**
@@ -33,6 +35,7 @@ const Main = (props) => {
       </nav>
       <hr />
       {children}
+      <AllBeastsContainer />
     </div>
   )
 }
