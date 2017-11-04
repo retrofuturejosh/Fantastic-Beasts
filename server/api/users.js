@@ -1,6 +1,6 @@
 const router = require('express').Router()
 module.exports = router
-const { User, Order, Order_Beasts } = require('../db/models')
+const { User, Order, Order_Beasts, Review, Beast } = require('../db/models')
 
 router.get('/', (req, res, next) => {
   User.findAll({
@@ -17,33 +17,23 @@ router.get('/:id', (req, res, next) => {
   const { id } = req.params;
   User.findById(
     Number(id),
-    {attributes: ['firstName', 'lastName', 'id']}
-    // {
-    //   include: [
-    //     { model: Order, 
-    //     // through: {
-    //       attributes: ['id', 'orderStatus', 'orderDate']
-    // }
-    // include: [
-    //   {
-    //     model: Order_Beasts,
-    //     through: {
-    //       attributes: ['quantity', 'beastId']
-    //     }
-    //   }]
-    // }]
+    {
+      attributes: ['firstName', 'lastName', 'id'],
+      include: [
+        {
+          model: Order,
+          attributes: ['id', 'orderStatus', 'orderDate'],
+          include: [
+            { model: Beast, 
+              through: {model: Order_Beasts, attributes: ['fixedPrice', 'quantity'] }
+            }
+          ]
+        },
+        { model: Review }
+      ]
+    }
   )
-    .then(user => {
-      return Promise.all([
-        user,
-        user.getOrders({
-          attributes: ['id', 'orderStatus', 'orderDate']
-        }),
-        user.getReviews()
-      ])
-    })
     .then(usersOrders => {
-
       res.json(usersOrders)
     })
     .catch(next)
