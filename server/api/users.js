@@ -24,12 +24,21 @@ router.get('/:id', (req, res, next) => {
           model: Order,
           attributes: ['id', 'orderStatus', 'orderDate'],
           include: [
-            { model: Beast, 
+            {
+              model: Beast,
               through: {model: Order_Beasts, attributes: ['fixedPrice', 'quantity'] }
             }
           ]
         },
-        { model: Review }
+        { model: Review,
+          include: [
+            {
+              model: Beast,
+              as: 'reviewee',
+              attributes: ['species']
+            }
+          ]
+        }
       ]
     }
   )
