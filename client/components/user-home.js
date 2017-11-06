@@ -27,7 +27,6 @@ class UserHome extends Component {
     const { orders } = this.props.userInfo
 
     return !(orders)?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
-
         <div>
           <h3>Welcome, {`${firstName} ${lastName}!`}</h3>
           <div>
@@ -79,6 +78,7 @@ class UserHome extends Component {
  * CONTAINER
  */
 const mapState = (state) => {
+  console.log('STATE.USERINFO', state)
   return {
     userInfo: state.user,
     // userOrders: state.userOrders
@@ -94,7 +94,7 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState,mapDispatch)(UserHome)
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
