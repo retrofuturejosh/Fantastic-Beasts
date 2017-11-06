@@ -10,16 +10,10 @@ import { fetchUserInfo, fetchUserOrders } from '../store/user'
 class UserHome extends Component {
   constructor(props) {
     super(props)
-    this.total = 0;
-    this.calculator = this.calculator.bind(this)
   }
 
   componentDidMount(){
     this.props.getUserInfo(this.props.userInfo.id)
-  }
-
-  calculator(num){
-    this.total += num
   }
 
   render(){
@@ -34,11 +28,11 @@ class UserHome extends Component {
             {
               orders && orders.map(order => {
                 return (
-                  <ul key={order.id}>
-                    <li>Order Status: {order.orderStatus}</li>
-                    <li>Order Date: {order.orderDate}</li>
-                    <li>Beasts:
-                     {
+                  <div key={order.id}>
+                    <p>Order Status: {order.orderStatus}</p>
+                    <p>Order Date: {order.orderDate}</p>
+                    <div>Beasts:
+                      {
                          order.beasts.length&&order.beasts.map(beast =>{
                             return (
                               <ul key={beast.id}>
@@ -47,15 +41,14 @@ class UserHome extends Component {
                                 </Link>
                                 <li>Beast PRICE: {beast.order_beast.fixedPrice}</li>
                                 <li>Beast QTY: {beast.order_beast.quantity}</li>
-                                {this.calculator(beast.order_beast.quantity * beast.order_beast.fixedPrice)}
+                                <li>Beast SUBTOTAL: {beast.order_beast.fixedPrice* beast.order_beast.quantity}</li>
                               </ul>
                             )
                           }
                         )
                       }
-                    <li>TOTAL: {this.total}</li>
-                    </li>
-                  </ul>
+                   </div>
+                  </div>
                 )
               })
             }

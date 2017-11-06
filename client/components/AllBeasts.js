@@ -4,14 +4,6 @@ import { fetchBeasts } from '../store'
 /**
  * COMPONENT
  */
-// export const AllBeasts = (props) => {
-
-//   return (
-//     <div>
-//       <h3>Welcome, to the Landing Page</h3>
-//     </div>
-//   )
-// }
 export class AllBeasts extends Component {
   constructor(props) {
     super(props)
