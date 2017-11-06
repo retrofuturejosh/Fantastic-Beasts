@@ -7,6 +7,7 @@ import history from './history'
 import {Main, Login, Signup, UserHome, singleBeast } from './components'
 import CartContainer from './components/cart'
 import AllBeastsContainer from './components/AllBeasts'
+import CheckoutFormContainer from './components/CheckoutForm'
 import {me} from './store'
 
 /**
@@ -29,6 +30,7 @@ class Routes extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/beasts/:id" component={singleBeast} />
+            <Route exact path="/checkout" component={CheckoutFormContainer} />
             {/* <Route path="/cart" component={CartContainer} /> */}
             {
               isLoggedIn &&
