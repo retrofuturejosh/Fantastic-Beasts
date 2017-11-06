@@ -19,6 +19,16 @@ router.get('/:id', (req,res,next) => {
         .catch(next)
 })
 
+router.get('/:id/users', (req,res,next) => {
+    Order.findById({
+        where: {
+            userId: req.params.id
+        }
+    })
+        .then(usersOrder => res.json(usersOrder))
+        .catch(next)
+})
+
 router.post('/', (req, res, next) => {
     Order.create(req.body)
         .then(newOrder => res.json(newOrder))

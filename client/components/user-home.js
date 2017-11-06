@@ -1,8 +1,8 @@
 import React , {Component} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {fetchUserInfo} from '../store/user'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { fetchUserInfo, fetchUserOrders } from '../store/user'
 
 /**
  * COMPONENT
@@ -17,50 +17,40 @@ class UserHome extends Component {
   }
 
   render(){
-    const {userInfo} = this.props
-    const {
-            firstName,
-            lastName
-          } = this.props.userInfo
-          console.log('LINE 27', this.props)
-          // console.log('LINE 28', orders)
-    return (
+    const { firstName, lastName } = this.props.userInfo
+    const { orders } = this.props.userInfo
+    // if(orders){
+    //   const { beasts } = this.props.userInfo.orders
+    //   return ()
+    // } else {
+    //   return (<h3>Welcome, {`${firstName} ${lastName}!`}</h3>)
+    // }
+
+          console.log('THIS.PROPS => ', this.props)
+
+    return orders?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
+
         <div>
           <h3>Welcome, {`${firstName} ${lastName}!`}</h3>
           <div>
              <h4>Your Order History : </h4>
             {
-              userInfo.orders&&userInfo.orders.map(order => {
+              orders && orders.map(order => {
                 return (
                   <div key={order.id}>
                     <p>Order Status: {order.orderStatus}</p>
                     <p>Order Date: {order.orderDate}</p>
                     <p>Beasts:
-                      {
-                         order.beasts.length&&order.beasts.map(beast =>{
-                            return (
-                              <div key={beast.id}>
-                                <Link to={`/singleBeast/${+beast.id}`}>
-                                  <p>Beast price: {beast.species}</p>
-                                </Link>
-                                <p>Beast PRICE: {beast.order_beast.fixedPrice}</p>
-                                <p>Beast QTY: {beast.order_beast.quantity}</p>
-                                <p>Beast SUBTOTAL: {beast.order_beast.quantity * beast.order_beast.fixedPrice}</p>
-                              </div>
-                            )
-                          }
-                        )
-                      }
                     </p>
                   </div>
                 )
               })
             }
           </div>
-
           <div>
             <div>
               <h5>LEAVE A REVIEW: </h5>
+
             </div>
             <div>
               <h5>ALL REVIEWS: </h5>
@@ -76,7 +66,8 @@ class UserHome extends Component {
  */
 const mapState = (state) => {
   return {
-    userInfo: state.user
+    userInfo: state.user,
+    userOrders: state.userOrders
   }
 }
 
@@ -84,6 +75,7 @@ const mapDispatch = (dispatch) => {
   return {
     getUserInfo: function (userId) {
       dispatch(fetchUserInfo(userId))
+      dispatch(fetchUserOrders(userId))
     }
   }
 }

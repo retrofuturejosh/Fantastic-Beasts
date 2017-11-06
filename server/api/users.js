@@ -26,7 +26,9 @@ router.get('/:id', (req, res, next) => {
           include: [
             {
               model: Beast,
-              through: {model: Order_Beasts, attributes: ['fixedPrice', 'quantity'] }
+              through: {
+                model: Order_Beasts,
+                attributes: ['fixedPrice', 'quantity'] }
             }
           ]
         },
