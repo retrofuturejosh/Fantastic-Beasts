@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchBeasts, setInput } from '../store'
 /**
@@ -82,6 +83,7 @@ export default AllBeastsContainer
 /**
  * PROP TYPES
  */
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }
+AllBeasts.propTypes = {
+  beasts: PropTypes.array,
+  input: PropTypes.string
+}
