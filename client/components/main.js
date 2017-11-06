@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-
-// import AllBeastsContainer from './AllBeasts'
 import {logout} from '../store'
 
 /**
@@ -14,11 +12,11 @@ import {logout} from '../store'
  */
 const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
-
+  console.log('LINE 17-allbeasts', props)
   return (
     <div>
-      <h1>BOILERMAKER</h1>
       <nav>
+        <h1>FANTASTIC BEASTS</h1>
         {
           isLoggedIn
             ? <div>
@@ -38,14 +36,15 @@ const Main = (props) => {
     </div>
   )
 }
-      // <AllBeastsContainer />
 
+      // <AllBeastsContainer filter={props.filtered}/>
 /**
  * CONTAINER
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    filtered: []
   }
 }
 

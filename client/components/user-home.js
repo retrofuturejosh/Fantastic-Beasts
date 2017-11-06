@@ -16,7 +16,6 @@ class UserHome extends Component {
     this.props.getUserInfo(this.props.userInfo.id)
   }
 
-
   render(){
     const { firstName, lastName } = this.props.userInfo
     const { orders } = this.props.userInfo
