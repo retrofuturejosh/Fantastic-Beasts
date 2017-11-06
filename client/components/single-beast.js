@@ -8,8 +8,7 @@ import { beasts } from '../store'
 */
 export const SingleBeast = (props) => {
  const beast = props.beast[0]
-
- return (
+  return (
    <div>
      <p>Current Beast is {`${beast.species}`} </p>
      <p>Category : {`${beast.category}`} </p>
@@ -24,7 +23,7 @@ export const SingleBeast = (props) => {
      <p>Breeder Info : {`${beast.breederInfo}`} </p>
      <p>Quantity : {`${beast.quantity}`} </p>
    </div>
- )
+  )
 }
 
 /**
@@ -35,7 +34,6 @@ const mapState = (state, ownProps) => {
       beast: state.beasts.filter(beast => +ownProps.match.params.id === +beast.id)
     }
   }
-
   export default connect(mapState)(SingleBeast)
 
 //   /**

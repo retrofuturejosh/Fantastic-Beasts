@@ -1,21 +1,49 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchBeasts, setInput } from '../store'
+import { fetchBeasts, setInput, updateCart } from '../store'
 /**
  * COMPONENT
  */
-class AllBeasts extends Component {
+export class AllBeasts extends Component {
   constructor(props) {
     super(props)
     this.state = {
       input: ""
     }
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.parseLocalCart = this.parseLocalCart.bind(this)
   }
 
   componentDidMount() {
+    let parsedCart
     this.props.getAllBeasts()
+    let storedCart = localStorage.getItem('beastsInCart')
+    if (storedCart) {
+      parsedCart = this.parseLocalCart(storedCart)
+      let beastIdArray = Object.keys(parsedCart)
+      beastIdArray.forEach(beastId => {
+        let quantity = parsedCart[beastId]
+        this.props.addToCart(beastId, quantity, true)
+      })
+    }
+  }
+
+  parseLocalCart = str => {
+    let result = {};
+    const items = str.split(' - ')
+    items.forEach(item => {
+      let beastIdx = item[0]
+      let quantity = item[4]
+      result[beastIdx] = quantity
+    })
+    return result
+  }
+
+  handleClick(e) {
+    e.preventDefault()
+    this.props.addToCart(e.target.beastId.value, e.target.quantity.value)
   }
 
   handleInputChange (evt) {
@@ -24,6 +52,14 @@ class AllBeasts extends Component {
 
   render() {
     const {beasts,handleCategoryChange, handleInputChange} = this.props
+    let beastsInCart = this.props.cart.map(beastItem => {
+      return beastItem.beast.id
+    })
+
+    let filterBeasts = beasts.beasts.map(beast => {
+      if (beast.species.includes(this.state.input)) return beast
+    })
+    filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
     return (
       <div>
         <div className='categories'>
@@ -35,19 +71,56 @@ class AllBeasts extends Component {
             <option>Fire</option>
           </select>
         </div>
+
         <div className='search'>
           <input
             type="text"
             onChange={this.handleInputChange}/>
         </div>
-        {
-          beasts.beasts.length && beasts.beasts.map(beast => {
-            return beast.species.includes(this.state.input) ?
-              (
-               <li key={ beast.id }>{ beast.species }</li>
-              ) : null
-          })
-        }
+
+        <div>
+            {
+              filterBeasts.length && filterBeasts.map(beast => {
+                return beastsInCart.includes(beast.id) ? (
+                    <div key={beast.id}>
+                      <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
+                    </div>) :
+                  (
+                    <div key={beast.id}>
+                      <li>{beast.species}</li>
+                      <form onSubmit={this.handleClick}>
+                        <button
+                          name="beastId"
+                          value={beast.id}
+                          type="submit">
+                          Add to Cart
+                      </button>
+                        <input
+                          placeholder="1"
+                          type="number"
+                          name="quantity"
+                          min="1"
+                          max={beast.quantity} />
+                      </form>
+                    </div>
+                  )
+              })
+            }
+        </div>
+
+        <div>
+          <h3>Cart</h3>
+          {
+            this.props.cart.length && this.props.cart.map(beastItem => {
+              return (
+                <div key={beastItem.beast.id}>
+                  <li>{beastItem.beast.species} quantity: {beastItem.quantity}</li>
+                </div>
+              )
+            })
+          }
+        </div>
+
       </div>
     )
   }
@@ -60,7 +133,8 @@ class AllBeasts extends Component {
 const mapState = (state) => {
   return {
     beasts: state.beasts,
-    input: state.input
+    input: state.input,
+    cart: state.cart
   }
 }
 
@@ -70,9 +144,12 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchBeasts())
     },
     handleCategoryChange (evt) {
-      let category;
+      let category
       if(evt.target) category = evt.target.value
       dispatch(fetchBeasts(category))
+    },
+    addToCart: function (beastId, quantity, storeCheck) {
+      dispatch(updateCart(beastId, quantity, storeCheck))
     }
   }
 }
@@ -84,6 +161,5 @@ export default AllBeastsContainer
  * PROP TYPES
  */
 AllBeasts.propTypes = {
-  beasts: PropTypes.array,
   input: PropTypes.string
 }

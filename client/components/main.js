@@ -12,9 +12,9 @@ import {logout} from '../store'
  */
 const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
-  console.log('LINE 17-allbeasts', props)
   return (
     <div>
+      <h1>Fantastic Beasts & Where to Buy Them</h1>
       <nav>
         <h1>FANTASTIC BEASTS</h1>
         {
@@ -37,7 +37,6 @@ const Main = (props) => {
   )
 }
 
-      // <AllBeastsContainer filter={props.filtered}/>
 /**
  * CONTAINER
  */

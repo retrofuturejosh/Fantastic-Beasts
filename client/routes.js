@@ -5,6 +5,9 @@ import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome, singleBeast,allBeasts} from './components'
+import CartContainer from './components/cart'
+import AllBeastsContainer from './components/AllBeasts'
+import CheckoutFormContainer from './components/CheckoutForm'
 import {me} from './store'
 
 /**
@@ -27,15 +30,22 @@ class Routes extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/singleBeast/:id" component={singleBeast} />
+            <Route exact path='/' component={AllBeastsContainer} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/beasts/:id" component={singleBeast} />
+            <Route exact path="/checkout" component={CheckoutFormContainer} />
+            {/* <Route path="/cart" component={CartContainer} /> */}
             {
               isLoggedIn &&
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
+                  <Route exact path="/home" component={UserHome} />
+                  <Route path="/cart" component={CartContainer} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
-            <Route component={Login} />
+            {<Route component={Login} />}
           </Switch>
         </Main>
       </Router>
