@@ -59,13 +59,13 @@ export const fetchUserInfo = (userId) =>
       )
       .catch(err => console.log(err))
 
-export const fetchUserOrders = (userId) =>
-  dispatch =>
-    axios.get(`/api/order/${userId}/users`)
-      .then(usersOrders =>
-        dispatch(getUserOrders(usersOrders.data))
-      )
-      .catch(err => console.log(err))
+// export const fetchUserOrders = (userId) =>
+//   dispatch =>
+//     axios.get(`/api/order/${userId}/users`)
+//       .then(usersOrders =>
+//         dispatch(getUserOrders(usersOrders.data))
+//       )
+//       .catch(err => console.log(err))
 
 /**
  * REDUCER

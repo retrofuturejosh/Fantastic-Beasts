@@ -10,25 +10,23 @@ import { fetchUserInfo, fetchUserOrders } from '../store/user'
 class UserHome extends Component {
   constructor(props) {
     super(props)
+    this.total = 0;
+    this.calculator = this.calculator.bind(this)
   }
 
   componentDidMount(){
     this.props.getUserInfo(this.props.userInfo.id)
   }
 
+  calculator(num){
+    this.total += num
+  }
+
   render(){
     const { firstName, lastName } = this.props.userInfo
     const { orders } = this.props.userInfo
-    // if(orders){
-    //   const { beasts } = this.props.userInfo.orders
-    //   return ()
-    // } else {
-    //   return (<h3>Welcome, {`${firstName} ${lastName}!`}</h3>)
-    // }
 
-          console.log('THIS.PROPS => ', this.props)
-
-    return orders?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
+    return !(orders)?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
 
         <div>
           <h3>Welcome, {`${firstName} ${lastName}!`}</h3>
@@ -37,12 +35,28 @@ class UserHome extends Component {
             {
               orders && orders.map(order => {
                 return (
-                  <div key={order.id}>
-                    <p>Order Status: {order.orderStatus}</p>
-                    <p>Order Date: {order.orderDate}</p>
-                    <p>Beasts:
-                    </p>
-                  </div>
+                  <ul key={order.id}>
+                    <li>Order Status: {order.orderStatus}</li>
+                    <li>Order Date: {order.orderDate}</li>
+                    <li>Beasts:
+                     {
+                         order.beasts.length&&order.beasts.map(beast =>{
+                            return (
+                              <ul key={beast.id}>
+                                <Link to={`/singleBeast/${+beast.id}`}>
+                                  <li>Beast TYPE: {beast.species}</li>
+                                </Link>
+                                <li>Beast PRICE: {beast.order_beast.fixedPrice}</li>
+                                <li>Beast QTY: {beast.order_beast.quantity}</li>
+                                {this.calculator(beast.order_beast.quantity * beast.order_beast.fixedPrice)}
+                              </ul>
+                            )
+                          }
+                        )
+                      }
+                    <li>TOTAL: {this.total}</li>
+                    </li>
+                  </ul>
                 )
               })
             }
@@ -67,7 +81,7 @@ class UserHome extends Component {
 const mapState = (state) => {
   return {
     userInfo: state.user,
-    userOrders: state.userOrders
+    // userOrders: state.userOrders
   }
 }
 
@@ -75,7 +89,7 @@ const mapDispatch = (dispatch) => {
   return {
     getUserInfo: function (userId) {
       dispatch(fetchUserInfo(userId))
-      dispatch(fetchUserOrders(userId))
+      // dispatch(fetchUserOrders(userId))
     }
   }
 }
@@ -93,7 +107,7 @@ UserHome.propTypes = {
 
 
 
-
+// this is for the afternoon, please DO NOT DELETE THIS!!!!
 
 // {
 //                  reviews.length&&reviews.map(review => {
