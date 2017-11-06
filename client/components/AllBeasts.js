@@ -79,7 +79,7 @@ export class AllBeasts extends Component {
           })
           }
         </div>
-        <div>
+        {/* <div>
           <h3>Cart</h3>
           {
             this.props.cart.length && this.props.cart.map(beastItem => {
@@ -90,7 +90,7 @@ export class AllBeasts extends Component {
               )
             })
           }
-        </div>
+        </div> */}
       </div>
     )
   }

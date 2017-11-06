@@ -17,7 +17,7 @@ const Main = (props) => {
 
   return (
     <div>
-      <h1>BOILERMAKER</h1>
+      <h1>Fantastic Beasts & Where to Buy Them</h1>
       <nav>
         {
           isLoggedIn
@@ -35,7 +35,6 @@ const Main = (props) => {
       </nav>
       <hr />
       {children}
-      <AllBeastsContainer />
     </div>
   )
 }
