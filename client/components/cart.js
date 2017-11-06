@@ -7,7 +7,8 @@ class Cart extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            quantityHandler: {}
+            quantityHandler: {},
+            badQuantity: {}
         }
         this.parseLocalCart = this
             .parseLocalCart
@@ -60,26 +61,32 @@ class Cart extends Component {
         e.preventDefault()
         let storedCart = localStorage.getItem('beastsInCart')
         let parsedCart
-        if (storedCart && this.state.quantityHandler[1] > this.state.quantityHandler[0]) {
+        if (storedCart && this.state.quantityHandler[beastId]) {
             parsedCart = this.parseLocalCart(storedCart)
             parsedCart[beastId] = this.state.quantityHandler[beastId]
             this.props.editCart(parsedCart)
-        } else {
-            
-        }
+        } 
     }
 
     handleChange(e, beastId, maxQuantity) {
         let newEditState = this.state.quantityHandler
-        newEditState[beastId] = [e.target.value, maxQuantity]
-        this.setState(newEditState, () => console.log(this.state))
+        let newBadState = this.state.badQuantity
+        if (+e.target.value > +maxQuantity) {
+           newBadState[beastId] = true
+           this.setState({ badQuantity: newBadState })
+        } else {
+            delete newBadState[beastId]
+            newEditState[beastId] = [e.target.value, maxQuantity]
+            this.setState({ quantityHandler: newEditState, badQuantity: newBadState })
+        } 
     }
 
     render() {
+        let orderedItems = this.props.cart.sort((a, b) => a.species - b.species)
         return (
             <div>
                 <ul>
-                    {this.props.cart.map(item => {
+                    {orderedItems.map(item => {
                             return (
                                 <div key={item.beast.id}>
                                     <li>
@@ -90,8 +97,12 @@ class Cart extends Component {
                                             min="1"
                                             max={item.beast.quantity}
                                             onChange={(e) => this.handleChange(e, item.beast.id, item.beast.quantity)}/>
-                                        <button onClick={(e) => this.handleEdit(e, item.beast.id)}>edit item quantity</button>
+                                        <button disabled={this.state.badQuantity[item.beast.id]} onClick={(e) => this.handleEdit(e, item.beast.id)}>edit item quantity</button>
                                         <button onClick={(e) => this.handleDelete(e, item.beast.id)}>remove from cart</button>
+                                        {
+                                            this.state.badQuantity[item.beast.id] &&
+                                            <div style={{ color: 'red'}}>The quantity can not exceed {item.beast.quantity}</div> 
+                                        }
                                     </li>
                                 </div>
                         )

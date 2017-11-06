@@ -3,10 +3,12 @@ import axios from 'axios'
 //ACTION TYPE
 const ADD_TO_CART = 'ADD_TO_CART'
 const EDIT_CART = 'EDIT_CART'
+const CLEAR_CART = 'CLEAR_CART'
 
 //ACTION CREATOR
 const addToCart = beastItem => ({ type: ADD_TO_CART, beastItem })
 const editCart = updatedCart => ({type: EDIT_CART, updatedCart})
+const clearCart = () => ({ type: CLEAR_CART })
 
 //THUNK CREATOR
 export const updateCart = (beastId, quantity, storeCheck) => dispatch => {
@@ -30,7 +32,10 @@ export const updateCart = (beastId, quantity, storeCheck) => dispatch => {
         .catch(err => console.log(err))
 }
 
+
+
 export const editCartThunk = (newCartObj) => dispatch => {
+    dispatch(clearCart())
     let newStorageString = ''
     for (let beastId in newCartObj){
         newStorageString += beastId + ' : ' + newCartObj[beastId] + ' - '
@@ -46,14 +51,14 @@ export const editCartThunk = (newCartObj) => dispatch => {
         return axios.get(`/api/beasts/${beast}`)
             .then(res => {
                 let beastData = res.data
-                let beastQuantity = newCartObj[beast.Id]
+                let beastQuantity = newCartObj[beastData.id][0]
                 let item = { beast: beastData, quantity: beastQuantity }
-                newCart.push(item)
+                dispatch(addToCart(item))
             })
     })
-    Promise.all(promisesArr)
-        .then(()=> dispatch(editCart(newCart)))
 }
+
+
 
 //REDUCER
 export default function (cart = [], action) {
@@ -62,6 +67,8 @@ export default function (cart = [], action) {
             return [...cart, action.beastItem]
         case EDIT_CART:
             return action.updatedCart
+        case CLEAR_CART:
+            return []
         default:
             return cart
     }
