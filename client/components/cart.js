@@ -18,11 +18,13 @@ class Cart extends Component {
     }
 
     componentDidMount() {
+        console.log('this.props are ', this.props)
         let parsedCart
         let storedCart = localStorage.getItem('beastsInCart')
         if (storedCart) {
+            console.log('storedCart is ', storedCart)
             parsedCart = this.parseLocalCart(storedCart)
-            console.log(parsedCart)
+            console.log('parsed cart is ', parsedCart)
             let beastIdArray = Object.keys(parsedCart)
             beastIdArray.forEach(beastId => {
                 if (beastId !== 'undefined'){
@@ -39,10 +41,21 @@ class Cart extends Component {
         let result = {};
         const items = str.split(' - ')
         items.forEach(item => {
-            let beastIdx = item[0]
-            let quantity = item[4]
+            let beastIdx, quantity
+            if (item[1] !== ' '){
+                beastIdx = item.slice(0, 2)
+                if (typeof item[6] !== undefined) {
+                    quantity = item.slice(5, 7)
+                } else quantity = item[5]
+            } else {
+                beastIdx = item[0]
+                if (item[5] !== undefined) {
+                    quantity = item.slice(4, 6)
+                } else quantity = item[4]
+            }
             result[beastIdx] = quantity
         })
+        console.log('parsing happened, parsed cart is ', result)
         return result
     }
 
@@ -52,6 +65,7 @@ class Cart extends Component {
         let parsedCart
         if (storedCart) {
             parsedCart = this.parseLocalCart(storedCart)
+            console.log('our parsed cart is ', parsedCart)
             delete parsedCart[beastId]
             this.props.editCart(parsedCart)
         }
@@ -63,7 +77,8 @@ class Cart extends Component {
         let parsedCart
         if (storedCart && this.state.quantityHandler[beastId]) {
             parsedCart = this.parseLocalCart(storedCart)
-            parsedCart[beastId] = this.state.quantityHandler[beastId]
+            parsedCart[beastId] = this.state.quantityHandler[beastId][0]
+            console.log('before we handle the edit ', parsedCart)
             this.props.editCart(parsedCart)
         } 
     }
@@ -82,7 +97,7 @@ class Cart extends Component {
     }
 
     render() {
-        let orderedItems = this.props.cart.sort((a, b) => a.species - b.species)
+        let orderedItems = this.props.cart.sort((a, b) => a.beast.species > b.beast.species)
         return (
             <div>
                 <ul>

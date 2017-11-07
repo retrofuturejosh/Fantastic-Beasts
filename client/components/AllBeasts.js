@@ -34,15 +34,26 @@ export class AllBeasts extends Component {
     let result = {};
     const items = str.split(' - ')
     items.forEach(item => {
-      let beastIdx = item[0]
-      let quantity = item[4]
-      result[beastIdx] = quantity
+        let beastIdx, quantity
+        if (item[1] !== ' '){
+            beastIdx = item.slice(0, 2)
+            if (typeof item[6] !== undefined) {
+                quantity = item.slice(5, 7)
+            } else quantity = item[5]
+        } else {
+            beastIdx = item[0]
+            if (item[5] !== undefined) {
+                quantity = item.slice(4, 6)
+            } else quantity = item[4]
+        }
+        result[beastIdx] = quantity
     })
     return result
   }
 
   handleClick(e) {
     e.preventDefault()
+    console.log('beast id is ', e.target.beastId.value, 'quantity is ', e.target.quantity.value)
     this.props.addToCart(e.target.beastId.value, e.target.quantity.value)
   }
 

@@ -4,7 +4,7 @@ import { Router } from 'react-router'
 import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import { Main, Login, Signup, UserHome, singleBeast, allBeasts, PostReviewContainer } from './components'
+import { Main, Login, Signup, UserHome, singleBeast, allBeasts, PostReviewContainer, OrderCompleteContainer } from './components'
 import CartContainer from './components/cart'
 import AllBeastsContainer from './components/AllBeasts'
 import CheckoutFormContainer from './components/CheckoutForm'
@@ -36,6 +36,7 @@ class Routes extends Component {
             <Route exact path="/beasts/:id" component={singleBeast} />
             <Route path="/cart" component={CartContainer} />
             <Route exact path="/checkout" component={CheckoutFormContainer} />
+            <Route exact path="/ordercomplete" component={OrderCompleteContainer} />
             {/* <Route path="/cart" component={CartContainer} /> */}
             {
               isLoggedIn &&
@@ -44,6 +45,7 @@ class Routes extends Component {
                 <Route exact path="/home" component={UserHome} />
                 <Route path="/cart" component={CartContainer} />
                 <Route path="/postreview" component={PostReviewContainer} />
+                <Route path="/ordercomplete" component={UserHome} />
               </Switch>
             }
             {/* Displays our Login component as a fallback */}
