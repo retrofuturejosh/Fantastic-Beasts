@@ -83,12 +83,18 @@ export class AllBeasts extends Component {
           </span>
         </div>
 
-        <div>
+        <div className="container">
           {
             filterBeasts.length && filterBeasts.map(beast => {
               return beastsInCart.includes(beast.id) ? (
                 <div key={beast.id}>
-                  <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
+                  <li>
+                    <div>Name: {beast.species}</div>
+                    <div>{beast.imageUrl}</div>
+                    <div>{beast.price}</div>
+                    <div>{beast.quantity}</div> 
+                    (Edit Button Will Go Here) already in cart
+                  </li>
                 </div>) :
                 (
                   <div key={beast.id}>
