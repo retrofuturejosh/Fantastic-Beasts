@@ -6,22 +6,39 @@ import { fetchUserInfo } from '../store/user'
 class PostReview extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      stars: 1,
+      beastId: 1
+    }
     this.submitReview = this.submitReview.bind(this)
+    this.handleReviewChange = this.handleReviewChange.bind(this)
+    this.handleSelectBeast = this.handleSelectBeast.bind(this)
   }
 
   componentDidMount() {
     this.props.getUserInfo(this.props.user.id)
   }
 
+  handleReviewChange(event) {
+    this.setState({ stars: Number(event.target.value) })
+  }
+
+  handleSelectBeast(event) {
+    this.setState({ beastId: Number(event.target.value) })
+  }
+
   submitReview(event) {
     event.preventDefault()
     const reviewToSubmit = {
-      // stars: ,
-      // title: ,
-      // content: ,
-      // imageUrl: 
+      title: event.target.reviewTitle.value,
+      content: event.target.reviewContent.value,
+      stars: this.state.stars,
+      beastId: this.state.beastId,
+      userId: this.props.user.id,
+      authorId: this.props.user.id,
+      revieweeId: this.props.user.id
     }
-    console.log('HIT SUBMIT BUTTON')
+    console.log('HIT SUBMIT BUTTON', reviewToSubmit)
   }
 
   render() {
@@ -36,12 +53,12 @@ class PostReview extends Component {
           <div>
             <label>
               Ordered Beasts:
-            <select>
+            <select value={this.state.beastId} onChange={this.handleSelectBeast}>
                 {
                   orders && orders.map(order => {
                     return order.beasts && order.beasts.map(beast => {
                       return (
-                        <option key={beast.id}>{beast.species}</option>
+                        <option key={beast.id} value={beast.id}>{beast.species}</option>
                       )
                     })
                   })
@@ -50,10 +67,10 @@ class PostReview extends Component {
             </label>
             <label>
               Rating:
-          <select>
+              <select value={this.state.stars} onChange={this.handleReviewChange}>
                 {
-                  rating.map((star, index) => (
-                    <option key={star}>{star}</option>
+                  rating.map(star => (
+                    <option key={star} value={star}>{star}</option>
                   ))
                 }
               </select>
