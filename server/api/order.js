@@ -30,8 +30,21 @@ router.get('/:id/users', (req,res,next) => {
 })
 
 router.post('/', (req, res, next) => {
-    Order.create(req.body)
-        .then(newOrder => res.json(newOrder))
+    const { orderStatus, orderDate, shippingAddress, creditCardInfo, email, userId, beasts } = req.body
+    const orderToPost = {
+        orderStatus,
+        orderDate,
+        shippingAddress,
+        creditCardInfo,
+        email,
+        userId
+    }
+    Order.create(orderToPost)
+        .then(newOrder => {
+            beasts.forEach(beast => newOrder.addBeast(beast.id))
+            return newOrder
+        })
+        .then(() => res.status(200).send('SUCCESS!'))
         .catch(next)
 })
 
