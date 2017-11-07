@@ -116,7 +116,7 @@ class CheckoutForm extends Component {
             total = (+subtotal + +tax)
             fixedTotal = (total / 100).toFixed(2)
         }
-        console.log('line 123 - promoCode', this.state.promoCode)
+
         return (
             <div>
                 <h3>Items in Cart:</h3>
@@ -155,16 +155,19 @@ class CheckoutForm extends Component {
                     <input
                         type="text"
                         name="email"
+                        required="required"
                     />
                     Shipping Address:
                     <input
                         type="text"
                         name="shippingAddress"
+                        required="required"
                     />
                     Credit Card:
                     <input
                         type="text"
                         name="creditCard"
+                        required="required"
                     />
                     <button type="submit">Checkout</button>
                 </form>
