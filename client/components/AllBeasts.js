@@ -84,30 +84,41 @@ export class AllBeasts extends Component {
           </span>
         </div>
 
-        <div>
+        <div className="container">
           {
             filterBeasts.length && filterBeasts.sort((a, b) => a.species - b.species).map(beast => {
               return beastsInCart.includes(beast.id) ? (
-                <div key={beast.id}>
-                  <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
+                <div key={beast.id} className="row">
+                  <div className="col-md-4">
+                    <h4>{beast.species}</h4>
+                    <img className="img-fluid" src={beast.imageUrl} />
+                    <div>{beast.price}</div>
+                    <div>{beast.quantity}</div>
+                    <button type="submit" className="btn btn-outline-secondary">Edit</button> 
+                    Item already in cart
+                  </div>
                 </div>) :
                 (
-                  <div key={beast.id}>
-                    <li>{beast.species}</li>
-                    <form onSubmit={this.handleClick}>
-                      <button
-                        name="beastId"
-                        value={beast.id}
-                        type="submit">
-                        Add to Cart
+                  <div key={beast.id} className="row">
+                    <div className="col-md-4">
+                    <h4>{beast.species}</h4>
+                    <img className="img-fluid" src={beast.imageUrl} />
+                      <form onSubmit={this.handleClick}>
+                        <button
+                          className="btn btn-outline-secondary"
+                          name="beastId"
+                          value={beast.id}
+                          type="submit">
+                          Add to Cart
                       </button>
-                      <input
-                        placeholder="1"
-                        type="number"
-                        name="quantity"
-                        min="1"
-                        max={beast.quantity} />
-                    </form>
+                        <input
+                          placeholder="1"
+                          type="number"
+                          name="quantity"
+                          min="1"
+                          max={beast.quantity} />
+                      </form>
+                    </div>
                   </div>
                 )
             }) || <p>UNAVAILABLE</p>

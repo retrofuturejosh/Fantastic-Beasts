@@ -47,25 +47,24 @@ class CheckoutForm extends Component {
     handleCheckout = (e) => {     
         e.preventDefault()
         let userId
-        if (this.props.user) userId = this.props.user.id
-        else userId = null
+        let beastsArr = this.props.cart.map(item => {
+            return item.beast
+        })
+        if (this.props.user.id) 
+          userId = this.props.user.id
+        else 
+          userId = null
         let orderToPost = {
-            orderStatus: 'Created',
-            orderDate: new Date(),
+            orderStatus: 'Processing',
+            orderDate: (new Date()).toString(),
             shippingAddress: e.target.shippingAddress.value,
             creditCardInfo: e.target.creditCard.value,
             email: e.target.email.value,
-            userId: userId
+            userId: userId,
+            beasts: beastsArr
         }
-        let beastsIdArr = this.props.cart.map(item => {
-            return item.beast.id
-        })
         axios.post('/api/order', orderToPost)
-            .then(newOrder => {
-                beastsIdArr.forEach(beast => {
-                    axios.post('/api/orderbeasts', { beastId: beast.id, })
-                })
-            })
+            .catch(err => console.error(err))
 
     }
 
@@ -110,7 +109,9 @@ class CheckoutForm extends Component {
                 {
                     `$${fixedTotal}`
                 }
-                <form onSubmit={(e) => this.handleCheckout(e)}>
+                <form onSubmit={(e) => {
+                    this.handleCheckout(e)
+                }}>
                     Email:
                     <input 
                         type="text"
