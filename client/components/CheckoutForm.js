@@ -17,20 +17,22 @@ class CheckoutForm extends Component {
     }
 
     componentDidMount() {
-        let parsedCart
-        let storedCart = localStorage.getItem('beastsInCart')
-        if (storedCart) {
-            parsedCart = this.parseLocalCart(storedCart)
-            console.log(parsedCart)
-            let beastIdArray = Object.keys(parsedCart)
-            beastIdArray.forEach(beastId => {
-                if (beastId !== 'undefined'){
-                    let quantity = parsedCart[beastId]
-                    this
-                        .props
-                        .addToCart(beastId, quantity, true)
-                }
-            })
+        if(!this.props.cart.length){
+            let parsedCart
+            let storedCart = localStorage.getItem('beastsInCart')
+            if (storedCart) {
+                parsedCart = this.parseLocalCart(storedCart)
+                console.log(parsedCart)
+                let beastIdArray = Object.keys(parsedCart)
+                beastIdArray.forEach(beastId => {
+                    if (beastId !== 'undefined'){
+                        let quantity = parsedCart[beastId]
+                        this
+                            .props
+                            .addToCart(beastId, quantity, true)
+                    }
+                })
+            }
         }
     }
 
