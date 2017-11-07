@@ -21,12 +21,11 @@ class CheckoutForm extends Component {
     }
 
     componentDidMount() {
-        if(!this.props.cart.length){
+        if (!this.props.cart.length){
             let parsedCart
             let storedCart = localStorage.getItem('beastsInCart')
             if (storedCart) {
                 parsedCart = this.parseLocalCart(storedCart)
-                console.log(parsedCart)
                 let beastIdArray = Object.keys(parsedCart)
                 beastIdArray.forEach(beastId => {
                     if (beastId !== 'undefined'){
@@ -38,6 +37,7 @@ class CheckoutForm extends Component {
                 })
             }
         }
+
     }
 
     parseLocalCart = str => {
