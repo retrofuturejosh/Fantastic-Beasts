@@ -47,6 +47,9 @@ class CheckoutForm extends Component {
     handleCheckout = (e) => {     
         e.preventDefault()
         let userId
+        let beastsArr = this.props.cart.map(item => {
+            return item.beast
+        })
         if (this.props.user.id) 
           userId = this.props.user.id
         else 
@@ -57,17 +60,11 @@ class CheckoutForm extends Component {
             shippingAddress: e.target.shippingAddress.value,
             creditCardInfo: e.target.creditCard.value,
             email: e.target.email.value,
-            userId: userId
+            userId: userId,
+            beasts: beastsArr
         }
-        let beastsArr = this.props.cart.map(item => {
-            return item.beast
-        })
         axios.post('/api/order', orderToPost)
-            .then(newOrder => {
-                beastsArr.forEach(beast => {
-                   beast.addOrder()
-                })
-            })
+            .catch(err => console.error(err))
 
     }
 
