@@ -13,12 +13,23 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', (req,res,next) => {
-    Order.findById(
+    console.log('REQ.user', req.session.cookie.isAdmin)
+    if (req.session.cookie.isAdmin) {
+        Order.findById(
         req.params.id,
-        {include: [{all: true}]}
-        )
+        {
+            include: [{all: true}]
+        })
         .then(order => res.json(order))
         .catch(next)
+    } else {
+        Order.findById(
+        req.params.id,
+        { attributes: ['id']
+        })
+        .then(order => res.json(order))
+        .catch(next)
+    }
 })
 
 router.get('/:id/users', (req,res,next) => {
