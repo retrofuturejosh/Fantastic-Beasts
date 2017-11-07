@@ -62,6 +62,9 @@ router.post('/', (req, res, next) => {
                 .then(beastInstance => {
                     foundFixedPrice = beastInstance.price
                     beastInstanceId = beastInstance.id
+                    let oldQuantity = beastInstance.quantity
+                    let newQuantity = oldQuantity - beastQuantityObj[beastInstanceId]
+                    beastInstance.update({quantity: newQuantity})
                     return Order_Beasts.findOne({where: {orderId: newOrderReturn.id, beastId: beastInstance.id}})
                 })
                 .then(order_beast => {
