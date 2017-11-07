@@ -121,6 +121,7 @@ async function seed () {
         careRequirements: "Give 'er space!",
         training: 'moderately',
         origin: 'Greece',
+        imageUrl: 'http://i48.tinypic.com/9uwufo.jpg',
         price: 40000,
         quantity: 100
       }, {
@@ -132,6 +133,7 @@ async function seed () {
         careRequirements: "Fluent parseltongue is useful.",
         training: 'none',
         origin: 'Westeros',
+        imageUrl: 'https://i.pinimg.com/474x/57/dd/42/57dd42c38114cb1b35c1f59df0a0717b--fantasy-creatures-mythical-creatures.jpg',
         price: 10000,
         quantity: 400
       }, {
@@ -143,6 +145,7 @@ async function seed () {
         training: 'very',
         careRequirements: 'Must own shiny things.',
         origin: 'UK',
+        imageUrl: 'https://pbs.twimg.com/media/DLRxCmMXUAEJ2S3.jpg',
         price: 1000000,
         quantity: 5
       }, {
@@ -176,6 +179,7 @@ async function seed () {
         careRequirements: "Let it work through its emotional cycle and don't get burned!",
         training: 'moderately',
         origin: 'Greece',
+        imageUrl: 'https://ae01.alicdn.com/kf/HTB1tgrQJFXXXXc8XVXXq6xXFXXXz/Fantasy-Art-Original-artwork-Phoenix-Nirvana-cloth-silk-art-wall-poster-and-prints.jpg_640x640.jpg',
         price: 250000,
         quantity: 125
       }, {
@@ -209,6 +213,7 @@ async function seed () {
         careRequirements: "Keep him fed!",
         training: 'none',
         origin: 'Norway',
+        imageUrl: 'https://pp.userapi.com/c841439/v841439830/2c527/MLBne7pbqes.jpg',
         price: 500000,
         quantity: 2
       }, {
@@ -231,6 +236,7 @@ async function seed () {
         careRequirements: "Needs a big lawn.",
         training: 'slightly',
         origin: 'Wales',
+        imageUrl: 'http://anomalija.lt/wp-content/uploads/2017/08/juodasis-suo.jpg',
         price: 30000,
         quantity: 50
       }, {
