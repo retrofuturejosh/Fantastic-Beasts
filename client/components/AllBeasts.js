@@ -56,10 +56,11 @@ export class AllBeasts extends Component {
       return beastItem.beast.id
     })
 
-    let filterBeasts = beasts.beasts.map(beast => {
-      if (beast.species.includes(this.state.input)) return beast
+    let filterBeasts = beasts.beasts.filter(beast => {
+      if (beast.species.toLowerCase().includes(this.state.input.toLowerCase())) return beast
     })
-    filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
+    // filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
+    // console.log('SORTING METHOD ', filterBeasts)
     return (
       <div className="container">
         <div>
@@ -85,7 +86,7 @@ export class AllBeasts extends Component {
 
         <div>
           {
-            filterBeasts.length && filterBeasts.map(beast => {
+            filterBeasts.length && filterBeasts.sort((a, b) => a.species - b.species).map(beast => {
               return beastsInCart.includes(beast.id) ? (
                 <div key={beast.id}>
                   <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
@@ -109,7 +110,7 @@ export class AllBeasts extends Component {
                     </form>
                   </div>
                 )
-            })
+            }) || <p>UNAVAILABLE</p>
           }
         </div>
 
