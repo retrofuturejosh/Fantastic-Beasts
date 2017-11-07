@@ -57,9 +57,15 @@ class CheckoutForm extends Component {
             email: e.target.email.value,
             userId: userId
         }
-        console.log(orderToPost)
+        let beastsIdArr = this.props.cart.map(item => {
+            return item.beast.id
+        })
         axios.post('/api/order', orderToPost)
-            .then(() => alert('Your order has been placed (FIX LATER)'))
+            .then(newOrder => {
+                beastsIdArr.forEach(beast => {
+                    axios.post('/api/orderbeasts', { beastId: beast.id, })
+                })
+            })
 
     }
 
