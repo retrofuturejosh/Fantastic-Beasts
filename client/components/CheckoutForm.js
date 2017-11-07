@@ -10,10 +10,14 @@ class CheckoutForm extends Component {
         this.state = {
             subtotal: '',
             tax: '',
-            total: ''
+            total: '',
+            promoCode: false
         }
+        this.hashPromoCode = this.hashPromoCode.bind(this)
+        this.handlePromoCode = this.handlePromoCode.bind(this)
         this.handleCheckout = this.handleCheckout.bind(this)
-        this.parseLocalCart = this.parseLocalCart.bind(this)        
+        this.parseLocalCart = this.parseLocalCart.bind(this)
+        this.coreyBirthdayCode = this.hashPromoCode("HBDCorey")
     }
 
     componentDidMount() {
@@ -50,15 +54,37 @@ class CheckoutForm extends Component {
         return result
     }
 
-    handleCheckout = (e) => {     
+    /*
+        I didn't write the hashPromoCode !!
+        CHECK IT OUT : https://github.com/darkskyapp/string-hash/blob/master/index.js
+        - Hyunjoo
+    */
+    hashPromoCode = str => {
+      var hash = 1108,
+          i    = str.length;
+      while(i) {
+        hash = (hash * 33) ^ str.charCodeAt(--i);
+      }
+      return hash >>> 0;
+    }
+
+    handlePromoCode =(e) => {
+        e.preventDefault()
+        let promoCode = e.target.promoCode.value
+        if(this.hashPromoCode(promoCode) === this.coreyBirthdayCode) {
+            this.setState({promoCode: true})
+            e.target.promoCode.value = ""
+        }
+    }
+    handleCheckout = (e) => {
         e.preventDefault()
         let userId
         let beastsArr = this.props.cart.map(item => {
             return item.beast
         })
-        if (this.props.user.id) 
+        if (this.props.user.id)
           userId = this.props.user.id
-        else 
+        else
           userId = null
         let orderToPost = {
             orderStatus: 'Processing',
@@ -92,6 +118,7 @@ class CheckoutForm extends Component {
             total = (+subtotal + +tax)
             fixedTotal = (total / 100).toFixed(2)
         }
+        console.log('line 123 - promoCode', this.state.promoCode)
         return (
             <div>
                 <h3>Items in Cart:</h3>
@@ -114,29 +141,43 @@ class CheckoutForm extends Component {
                 {
                     `$${fixedTax}`
                 }
+                <h4>PromoCode: </h4>
+                {
+                    !this.state.promoCode ? `${0}` : `${(-1108 / 100).toFixed(2)}`
+                }
                 <h4>Total: </h4>
                 {
-                    `$${fixedTotal}`
+                    !this.state.promoCode ? `$${fixedTotal}` : `${fixedTotal - 11.08}`
                 }
                 <form onSubmit={(e) => {
                     this.handleCheckout(e)
                 }}>
                     Email:
-                    <input 
+                    <input
                         type="text"
                         name="email"
                     />
                     Shipping Address:
-                    <input 
+                    <input
                         type="text"
                         name="shippingAddress"
                     />
                     Credit Card:
-                    <input 
+                    <input
                         type="text"
                         name="creditCard"
                     />
                     <button type="submit">Checkout</button>
+                </form>
+                <form onSubmit={(e) => {
+                    this.handlePromoCode(e)
+                }}>
+                    Promo Code:
+                    <input
+                        type="text"
+                        name="promoCode"
+                    />
+                    <button type="submit">Apply</button>
                 </form>
             </div>
         )
@@ -144,9 +185,9 @@ class CheckoutForm extends Component {
 }
 
 const mapState = (state) => {
-    return { 
+    return {
         cart: state.cart,
-        user: state.user 
+        user: state.user
     }
 }
 
