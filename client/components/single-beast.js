@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { beasts } from '../store'
 
 /**
 * COMPONENT
 */
 export const SingleBeast = (props) => {
- const beast = props.beast[0]
-  return (
+
+  const {singleBeast,beastId} = props
+  const filteredBeast = singleBeast.beasts.length&&singleBeast.beasts.filter(beast => beastId === +beast.id)
+  const beast = filteredBeast[0]
+
+  return (beast)?(
    <div>
+     <img src={`${beast.imageUrl || "favicon.ico"}`} width="128" height="128"/>
      <p>Current Beast is {`${beast.species}`} </p>
      <p>Category : {`${beast.category}`} </p>
      <p>Danger : {`${beast.danger}`} </p>
@@ -18,27 +22,27 @@ export const SingleBeast = (props) => {
      <p>Care requirements : {`${beast.careRequirements}`} </p>
      <p>Training : {`${beast.training}`} </p>
      <p>Origin : {`${beast.origin}`} </p>
-     <img src={`${beast.imageUrl}`} />
      <p>Price : {`${beast.price}`} </p>
      <p>Breeder Info : {`${beast.breederInfo}`} </p>
-     <p>Quantity : {`${beast.quantity}`} </p>
+     <p>Quantity : {`${beast.quantity || "N/A"}`} </p>
    </div>
-  )
+  ):(<div>nothing</div>)
 }
 
 /**
  * CONTAINER
  */
-const mapState = (state, ownProps) => {
+  const mapState = (state, ownProps) => {
     return {
-      beast: state.beasts.filter(beast => +ownProps.match.params.id === +beast.id)
+      singleBeast:state.beasts,
+      beastId:+ownProps.match.params.id
     }
   }
   export default connect(mapState)(SingleBeast)
 
-//   /**
-//    * PROP TYPES
-//    */
-//   UserHome.propTypes = {
-//     email: PropTypes.string
-//   }
+  /**
+   * PROP TYPES
+   */
+  SingleBeast.propTypes = {
+    beast: PropTypes.array
+  }

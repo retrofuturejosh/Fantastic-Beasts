@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Router} from 'react-router'
+import { Router } from 'react-router'
 import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
@@ -8,18 +8,18 @@ import { Main, Login, Signup, UserHome, singleBeast, allBeasts, PostReviewContai
 import CartContainer from './components/cart'
 import AllBeastsContainer from './components/AllBeasts'
 import CheckoutFormContainer from './components/CheckoutForm'
-import { me } from './store'
+import {me,fetchBeasts} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.loadInitialData()
   }
 
-  render () {
-    const {isLoggedIn} = this.props
+  render() {
+    const { isLoggedIn } = this.props
 
     return (
       <Router history={history}>
@@ -34,16 +34,17 @@ class Routes extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/beasts/:id" component={singleBeast} />
+            <Route path="/cart" component={CartContainer} />
             <Route exact path="/checkout" component={CheckoutFormContainer} />
             {/* <Route path="/cart" component={CartContainer} /> */}
             {
               isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route exact path="/home" component={UserHome} />
-                  <Route path="/cart" component={CartContainer} />
-                  <Route path="/postreview" component={PostReviewContainer} />
-                </Switch>
+              <Switch>
+                {/* Routes placed here are only available after logging in */}
+                <Route exact path="/home" component={UserHome} />
+                <Route path="/cart" component={CartContainer} />
+                <Route path="/postreview" component={PostReviewContainer} />
+              </Switch>
             }
             {/* Displays our Login component as a fallback */}
             {<Route component={Login} />}
@@ -67,8 +68,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    loadInitialData () {
+    loadInitialData() {
       dispatch(me())
+      dispatch(fetchBeasts())
     }
   }
 }

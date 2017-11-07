@@ -40,4 +40,4 @@ export default function (state = defaultBeast, action) {
         return state
     }
   }
-  
+
