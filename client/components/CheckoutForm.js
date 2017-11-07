@@ -25,7 +25,6 @@ class CheckoutForm extends Component {
         let storedCart = localStorage.getItem('beastsInCart')
         if (storedCart) {
             parsedCart = this.parseLocalCart(storedCart)
-            console.log(parsedCart)
             let beastIdArray = Object.keys(parsedCart)
             beastIdArray.forEach(beastId => {
                 if (beastId !== 'undefined'){
@@ -95,7 +94,6 @@ class CheckoutForm extends Component {
             userId: userId,
             cart: this.props.cart,
         }
-        console.log(this.props.cart)
         axios.post('/api/order', orderToPost)
             .then(res => {
                 localStorage.setItem('beastsInCart', '')
@@ -126,6 +124,7 @@ class CheckoutForm extends Component {
                     orderedItems.map(item => {
                         return (
                             <li key={item.beast.id}>
+
                                 {
                                     `${item.beast.species} Quantity: ${item.quantity} Price: $${((item.beast.price)/ 100).toFixed(2)} Subtotal: $${((item.beast.price * item.quantity)/ 100).toFixed(2)}`
                                 }
