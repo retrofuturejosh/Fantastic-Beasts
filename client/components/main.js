@@ -13,21 +13,20 @@ import {logout} from '../store'
 const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
   return (
-    <div>
-      <h1>Fantastic Beasts & Where to Buy Them</h1>
-      <nav>
-        <h1>FANTASTIC BEASTS</h1>
+    <div className="container">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <h1>Fantastic Beasts</h1>
         {
           isLoggedIn
             ? <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={handleClick}>Logout</a>
+              <Link to="/home" className="navbar-brand">Home</Link>
+              <a href="#" onClick={handleClick} className="navbar-brand">Logout</a>
             </div>
             : <div>
               {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/login" className="navbar-brand">Login</Link>
+              <Link to="/signup" className="navbar-brand">Sign Up</Link>
             </div>
         }
       </nav>
