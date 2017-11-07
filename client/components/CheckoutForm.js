@@ -137,11 +137,11 @@ class CheckoutForm extends Component {
                 }
                 <h4>Subtotal: </h4>
                 {
-                    `$${fixedSubtotal}`
+                    `$${!fixedSubtotal ? 0 : fixedSubtotal}`
                 }
                 <h4>Tax: </h4>
                 {
-                    `$${fixedTax}`
+                    `$${!fixedTax ? 0 : fixedTax}`
                 }
                 <h4>PromoCode: </h4>
                 {
@@ -149,7 +149,7 @@ class CheckoutForm extends Component {
                 }
                 <h4>Total: </h4>
                 {
-                    !this.state.promoCode ? `$${fixedTotal}` : `${fixedTotal - 11.08}`
+                    !this.state.promoCode ? `$${!fixedTotal ? 0 : fixedTotal}` : `${fixedTotal - 11.08}`
                 }
                 <form onSubmit={(e) => {
                     this.handleCheckout(e)
