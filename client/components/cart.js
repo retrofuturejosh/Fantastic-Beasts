@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-
+import {Link} from 'react-router-dom'
 import {fetchBeasts, updateCart, editCartThunk } from '../store'
 
 class Cart extends Component {
@@ -80,7 +80,7 @@ class Cart extends Component {
             parsedCart[beastId] = this.state.quantityHandler[beastId][0]
             console.log('before we handle the edit ', parsedCart)
             this.props.editCart(parsedCart)
-        } 
+        }
     }
 
     handleChange(e, beastId, maxQuantity) {
@@ -93,7 +93,7 @@ class Cart extends Component {
             delete newBadState[beastId]
             newEditState[beastId] = [e.target.value, maxQuantity]
             this.setState({ quantityHandler: newEditState, badQuantity: newBadState })
-        } 
+        }
     }
 
     render() {
@@ -116,7 +116,7 @@ class Cart extends Component {
                                         <button onClick={(e) => this.handleDelete(e, item.beast.id)}>remove from cart</button>
                                         {
                                             this.state.badQuantity[item.beast.id] &&
-                                            <div style={{ color: 'red'}}>The quantity can not exceed {item.beast.quantity}</div> 
+                                            <div style={{ color: 'red'}}>The quantity can not exceed {item.beast.quantity}</div>
                                         }
                                     </li>
                                 </div>
@@ -124,6 +124,9 @@ class Cart extends Component {
                     })
                 }
                 </ul>
+                <Link to="/checkout">
+                    <button type="button">CHECKOUT</button>
+                </Link>
             </div>
         )
     }
