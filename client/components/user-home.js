@@ -18,7 +18,7 @@ class UserHome extends Component {
 
   render(){
     const { firstName, lastName } = this.props.userInfo
-    const { orders } = this.props.userInfo
+    const { orders, reviews } = this.props.userInfo
 
     return !(orders)?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
         <div>
@@ -27,6 +27,7 @@ class UserHome extends Component {
              <h4>Your Order History : </h4>
             {
               orders && orders.map(order => {
+                this.total = 0
                 return (
                   <div key={order.id}>
                     <p>Order Status: {order.orderStatus}</p>
@@ -34,20 +35,24 @@ class UserHome extends Component {
                     <div>Beasts:
                       {
                          order.beasts.length&&order.beasts.map(beast =>{
+                            let price = +beast.order_beast.fixedPrice
+                            let qty = +beast.order_beast.quantity
+                            this.total += price * qty
                             return (
                               <ul key={beast.id}>
                                 <Link to={`/singleBeast/${+beast.id}`}>
                                   <li>Beast TYPE: {beast.species}</li>
                                 </Link>
-                                <li>Beast PRICE: {beast.order_beast.fixedPrice}</li>
-                                <li>Beast QTY: {beast.order_beast.quantity}</li>
-                                <li>Beast SUBTOTAL: {beast.order_beast.fixedPrice* beast.order_beast.quantity}</li>
+                                <li>Beast PRICE: {new Intl.NumberFormat().format(price)+".00"}</li>
+                                <li>Beast QTY: {qty}</li>
+                                <li>Beast SUBTOTAL: {new Intl.NumberFormat().format(price*qty)+".00"}</li>
                               </ul>
                             )
                           }
                         )
                       }
-                   </div>
+                    </div>
+                  <h5>ORDER TOTAL: {new Intl.NumberFormat().format(this.total)+".00"}</h5>
                   </div>
                 )
               })
@@ -55,12 +60,27 @@ class UserHome extends Component {
           </div>
           <div>
             <div>
-              <h5>LEAVE A REVIEW: </h5>
-
+                {
+                  <Link to="/postreview"><h5>LEAVE A REVIEW </h5></Link>
+                }
             </div>
             <div>
               <h5>ALL REVIEWS: </h5>
-
+                {
+                 reviews.length&&reviews.map(review => {
+                  return(
+                    <div key={review.id}>
+                      <h6>TITLE: {review.title}</h6>
+                      <p>STARS: {review.stars}</p>
+                      <p>CONTENT: {review.content}</p>
+                      <img src={review.imageUrl || "favicon.ico"}/>
+                      <Link to={`/singleBeast/${review.beastId}`}>
+                        <p>{review.reviewee.species}</p>
+                      </Link>
+                    </div>
+                  )
+                 })
+                }
             </div>
           </div>
         </div>
@@ -71,10 +91,8 @@ class UserHome extends Component {
  * CONTAINER
  */
 const mapState = (state) => {
-  console.log('STATE.USERINFO', state)
   return {
     userInfo: state.user,
-    // userOrders: state.userOrders
   }
 }
 
@@ -82,7 +100,6 @@ const mapDispatch = (dispatch) => {
   return {
     getUserInfo: function (userId) {
       dispatch(fetchUserInfo(userId))
-      // dispatch(fetchUserOrders(userId))
     }
   }
 }
@@ -97,21 +114,3 @@ UserHome.propTypes = {
   getUserInfo: PropTypes.func.isRequired,
 }
 
-
-
-
-// this is for the afternoon, please DO NOT DELETE THIS!!!!
-
-// {
-//                  reviews.length&&reviews.map(review => {
-//                   return({
-//                     <h5>TITLE: {review.title}</h5>
-//                     <p>STARS: {review.stars}</p>
-//                     <p>CONTENT: {review.content}</p>
-//                     <img{review.imageUrl? review.imageUrl : "favicon.ico"}></img>
-//                     <Link to={`/singleBeast/${review.beastId}`}>
-//                       <p>{review.reviewee.species}</p>
-//                     </Link>
-//                   })
-//                  })
-//                 }
