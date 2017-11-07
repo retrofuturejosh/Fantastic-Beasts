@@ -46,7 +46,7 @@ const Beast = db.define('beast', {
     },
     imageUrl: {
       type: Sequelize.STRING,
-      defaultValue: "https://lh6.ggpht.com/orPa7ldnMGUrBNVvO-EBedIIwXDByV_UI8H8-QZtEjU0zsoswiI4WCFDq2uehadCd8SH=h1080"
+      defaultValue: "http://drpattydental.com/wp-content/uploads/2017/05/placeholder.png"
     },
     //imageUrl
     price: {

@@ -57,23 +57,33 @@ class CheckoutForm extends Component {
             email: e.target.email.value,
             userId: userId
         }
-        console.log(orderToPost)
+        let beastsIdArr = this.props.cart.map(item => {
+            return item.beast.id
+        })
         axios.post('/api/order', orderToPost)
-            .then(() => alert('Your order has been placed (FIX LATER)'))
+            .then(newOrder => {
+                beastsIdArr.forEach(beast => {
+                    axios.post('/api/orderbeasts', { beastId: beast.id, })
+                })
+            })
 
     }
 
     render() {
         console.log('this.props => ', this.props)
-        let orderedItems = this.props.cart.sort((a, b) => a.species - b.species)
-        let subtotal = orderedItems.length ? this.props.cart.reduce((item, nextItem) => {
-            return item.beast.price + nextItem.beast.price
-        }) : null
-        let fixedSubtotal = (subtotal / 100).toFixed(2)
-        let tax = (fixedSubtotal * 8.875)
-        let fixedTax = (tax  / 100).toFixed(2)
-        let total = (+subtotal + +tax)
-        let fixedTotal = (total / 100).toFixed(2)
+        let orderedItems = this.props.cart.sort((a, b) => a.beast.species > b.beast.species)
+        let subtotal = 0
+        let fixedSubtotal, tax, fixedTax, total, fixedTotal;
+        for (let i = 0; i < this.props.cart.length; i++){
+            subtotal += parseInt(this.props.cart[i].beast.price * this.props.cart[i].quantity)
+        }
+        if (subtotal > 0) {
+            fixedSubtotal = (subtotal / 100).toFixed(2)
+            tax = (fixedSubtotal * 8.875)
+            fixedTax = (tax  / 100).toFixed(2)
+            total = (+subtotal + +tax)
+            fixedTotal = (total / 100).toFixed(2)
+        }
         return (
             <div>
                 <h3>Items in Cart:</h3>
@@ -82,7 +92,7 @@ class CheckoutForm extends Component {
                         return (
                             <li key={item.beast.id}>
                                 {
-                                    `${item.beast.species} Quantity: ${item.beast.quantity} Price: $${(item.beast.price / 100).toFixed(2)} `
+                                    `${item.beast.species} Quantity: ${item.quantity} Price: $${((item.beast.price)/ 100).toFixed(2)} Subtotal: $${((item.beast.price * item.quantity)/ 100).toFixed(2)}`
                                 }
                             </li>
                         )
