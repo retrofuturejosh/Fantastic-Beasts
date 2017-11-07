@@ -59,8 +59,6 @@ export class AllBeasts extends Component {
     let filterBeasts = beasts.beasts.filter(beast => {
       if (beast.species.toLowerCase().includes(this.state.input.toLowerCase())) return beast
     })
-    // filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
-    // console.log('SORTING METHOD ', filterBeasts)
     return (
       <div className="container">
         <div>
@@ -94,7 +92,7 @@ export class AllBeasts extends Component {
                     <img className="img-fluid" src={beast.imageUrl} />
                     <div>{beast.price}</div>
                     <div>{beast.quantity}</div>
-                    <button type="submit" className="btn btn-outline-secondary">Edit</button> 
+                    <button type="submit" className="btn btn-outline-secondary">Edit</button>
                     Item already in cart
                   </div>
                 </div>) :
