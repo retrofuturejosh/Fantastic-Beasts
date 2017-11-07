@@ -46,12 +46,12 @@ export class AllBeasts extends Component {
     this.props.addToCart(e.target.beastId.value, e.target.quantity.value)
   }
 
-  handleInputChange (evt) {
-    this.setState({input:evt.target.value})
+  handleInputChange(evt) {
+    this.setState({ input: evt.target.value })
   }
 
   render() {
-    const {beasts,handleCategoryChange, handleInputChange} = this.props
+    const { beasts, handleCategoryChange, handleInputChange } = this.props
     let beastsInCart = this.props.cart.map(beastItem => {
       return beastItem.beast.id
     })
@@ -61,9 +61,9 @@ export class AllBeasts extends Component {
     })
     filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
     return (
-      <div>
-        <div className='categories'>
-          <select onChange={handleCategoryChange}>
+      <div className="container">
+        <div>
+          <select onChange={handleCategoryChange} className="custom-select">
             <option>Choose a Category</option>
             <option>Land</option>
             <option>Air</option>
@@ -72,40 +72,45 @@ export class AllBeasts extends Component {
           </select>
         </div>
 
-        <div className='search'>
+        <div className="input-group">
           <input
+            className="form-control"
+            placeholder="What are you looking for?"
             type="text"
-            onChange={this.handleInputChange}/>
+            onChange={this.handleInputChange} />
+          <span className="input-group-btn">
+            <button type="submit" className="btn btn-outline-secondary">Submit</button>
+          </span>
         </div>
 
         <div>
-            {
-              filterBeasts.length && filterBeasts.map(beast => {
-                return beastsInCart.includes(beast.id) ? (
-                    <div key={beast.id}>
-                      <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
-                    </div>) :
-                  (
-                    <div key={beast.id}>
-                      <li>{beast.species}</li>
-                      <form onSubmit={this.handleClick}>
-                        <button
-                          name="beastId"
-                          value={beast.id}
-                          type="submit">
-                          Add to Cart
+          {
+            filterBeasts.length && filterBeasts.map(beast => {
+              return beastsInCart.includes(beast.id) ? (
+                <div key={beast.id}>
+                  <li>{beast.species} (Edit Button Will Go Here)already in cart</li>
+                </div>) :
+                (
+                  <div key={beast.id}>
+                    <li>{beast.species}</li>
+                    <form onSubmit={this.handleClick}>
+                      <button
+                        name="beastId"
+                        value={beast.id}
+                        type="submit">
+                        Add to Cart
                       </button>
-                        <input
-                          placeholder="1"
-                          type="number"
-                          name="quantity"
-                          min="1"
-                          max={beast.quantity} />
-                      </form>
-                    </div>
-                  )
-              })
-            }
+                      <input
+                        placeholder="1"
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        max={beast.quantity} />
+                    </form>
+                  </div>
+                )
+            })
+          }
         </div>
 
         <div>
@@ -143,9 +148,9 @@ const mapDispatch = (dispatch) => {
     getAllBeasts: function () {
       dispatch(fetchBeasts())
     },
-    handleCategoryChange (evt) {
+    handleCategoryChange(evt) {
       let category
-      if(evt.target) category = evt.target.value
+      if (evt.target) category = evt.target.value
       dispatch(fetchBeasts(category))
     },
     addToCart: function (beastId, quantity, storeCheck) {
