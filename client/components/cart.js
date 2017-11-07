@@ -20,21 +20,25 @@ class Cart extends Component {
     componentDidMount() {
         console.log('this.props are ', this.props)
         let parsedCart
-        let storedCart = localStorage.getItem('beastsInCart')
-        if (storedCart) {
-            console.log('storedCart is ', storedCart)
-            parsedCart = this.parseLocalCart(storedCart)
-            console.log('parsed cart is ', parsedCart)
-            let beastIdArray = Object.keys(parsedCart)
-            beastIdArray.forEach(beastId => {
-                if (beastId !== 'undefined'){
-                    let quantity = parsedCart[beastId]
-                    this
-                        .props
-                        .addToCart(beastId, quantity, true)
-                }
-            })
-        }
+        let storedCart
+        if (!this.props.cart.length) {
+
+          storedCart = localStorage.getItem('beastsInCart')
+          if (storedCart) {
+              console.log('storedCart is ', storedCart)
+              parsedCart = this.parseLocalCart(storedCart)
+              console.log('parsed cart is ', parsedCart)
+              let beastIdArray = Object.keys(parsedCart)
+              beastIdArray.forEach(beastId => {
+                  if (beastId !== 'undefined'){
+                      let quantity = parsedCart[beastId]
+                      this
+                          .props
+                          .addToCart(beastId, quantity, true)
+                  }
+              })
+         }
+       }
     }
 
     parseLocalCart = str => {

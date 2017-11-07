@@ -21,20 +21,23 @@ class CheckoutForm extends Component {
     }
 
     componentDidMount() {
-        let parsedCart
-        let storedCart = localStorage.getItem('beastsInCart')
-        if (storedCart) {
-            parsedCart = this.parseLocalCart(storedCart)
-            let beastIdArray = Object.keys(parsedCart)
-            beastIdArray.forEach(beastId => {
-                if (beastId !== 'undefined'){
-                    let quantity = parsedCart[beastId]
-                    this
-                        .props
-                        .addToCart(beastId, quantity, true)
-                }
-            })
+        if (!this.props.cart.length){
+            let parsedCart
+            let storedCart = localStorage.getItem('beastsInCart')
+            if (storedCart) {
+                parsedCart = this.parseLocalCart(storedCart)
+                let beastIdArray = Object.keys(parsedCart)
+                beastIdArray.forEach(beastId => {
+                    if (beastId !== 'undefined'){
+                        let quantity = parsedCart[beastId]
+                        this
+                            .props
+                            .addToCart(beastId, quantity, true)
+                    }
+                })
+            }
         }
+
     }
 
     parseLocalCart = str => {
@@ -134,11 +137,11 @@ class CheckoutForm extends Component {
                 }
                 <h4>Subtotal: </h4>
                 {
-                    `$${fixedSubtotal}`
+                    `$${!fixedSubtotal ? 0 : fixedSubtotal}`
                 }
                 <h4>Tax: </h4>
                 {
-                    `$${fixedTax}`
+                    `$${!fixedTax ? 0 : fixedTax}`
                 }
                 <h4>PromoCode: </h4>
                 {
@@ -146,7 +149,7 @@ class CheckoutForm extends Component {
                 }
                 <h4>Total: </h4>
                 {
-                    !this.state.promoCode ? `$${fixedTotal}` : `${fixedTotal - 11.08}`
+                    !this.state.promoCode ? `$${!fixedTotal ? 0 : fixedTotal}` : `${fixedTotal - 11.08}`
                 }
                 <form onSubmit={(e) => {
                     this.handleCheckout(e)

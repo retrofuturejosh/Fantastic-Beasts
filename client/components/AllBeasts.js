@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchBeasts, setInput, updateCart } from '../store'
+import { Link } from 'react-router-dom';
+import history from '../history'
+
 /**
  * COMPONENT
  */
@@ -14,6 +17,7 @@ export class AllBeasts extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.parseLocalCart = this.parseLocalCart.bind(this)
+    this.handleEditClick = this.handleEditClick.bind(this)
   }
 
   componentDidMount() {
@@ -49,6 +53,10 @@ export class AllBeasts extends Component {
         result[beastIdx] = quantity
     })
     return result
+  }
+
+  handleEditClick(){
+    history.push('/cart')
   }
 
   handleClick(e) {
@@ -99,16 +107,15 @@ export class AllBeasts extends Component {
             filterBeasts.length && filterBeasts.sort((a, b) => a.species - b.species).map(beast => {
               return beastsInCart.includes(beast.id) ? (
                 <div key={beast.id} className="col-md-4">
-                    <h4>{beast.species}</h4>
+                    <Link key={ beast.id } to={`/singleBeast/${beast.id}`}><h4>{beast.species}</h4></Link>
                     <img className="img-fluid" src={beast.imageUrl} />
-                    <div>{beast.price}</div>
-                    <div>{beast.quantity}</div>
-                    <button type="submit" className="btn btn-outline-secondary">Edit</button>
-                    Item already in cart
+                    <div>Price: {beast.price}</div>
+                    <div>Quantity Available: {beast.quantity}</div>
+                     Item in cart
                   </div>) :
                   (
                     <div key={beast.id} className="col-md-4">
-                      <h4>{beast.species}</h4>
+                      <Link key={ beast.id } to={`/singleBeast/${beast.id}`}><h4>{beast.species}</h4></Link>
                       <img className="img-fluid" src={beast.imageUrl} />
                       <div>Price: {beast.price}</div>
                       <div>Quantity Available: {beast.quantity}</div>
@@ -119,7 +126,7 @@ export class AllBeasts extends Component {
                           value={beast.id}
                           type="submit">
                           Add to Cart
-                      </button>
+                        </button>
                         <input
                           placeholder="1"
                           type="number"
@@ -133,20 +140,6 @@ export class AllBeasts extends Component {
           }
           </div>
         </div>
-
-        <div>
-          <h3>Cart</h3>
-          {
-            this.props.cart.length && this.props.cart.map(beastItem => {
-              return (
-                <div key={beastItem.beast.id}>
-                  <li>{beastItem.beast.species} quantity: {beastItem.quantity}</li>
-                </div>
-              )
-            })
-          }
-        </div>
-
       </div>
     )
   }
