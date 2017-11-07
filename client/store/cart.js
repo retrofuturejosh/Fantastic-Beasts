@@ -51,7 +51,7 @@ export const editCartThunk = (newCartObj) => dispatch => {
         return axios.get(`/api/beasts/${beast}`)
             .then(res => {
                 let beastData = res.data
-                let beastQuantity = newCartObj[beastData.id][0]
+                let beastQuantity = newCartObj[beastData.id]
                 let item = { beast: beastData, quantity: beastQuantity }
                 dispatch(addToCart(item))
             })

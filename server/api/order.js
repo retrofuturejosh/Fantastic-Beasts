@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const Order = require('../db/models').Order
+const Beast = require('../db/models').Beast
+const Order_Beasts = require('../db/models').Order_Beasts
 module.exports = router
 
 //Find all orders ever, for admin only
@@ -30,7 +32,7 @@ router.get('/:id/users', (req,res,next) => {
 })
 
 router.post('/', (req, res, next) => {
-    const { orderStatus, orderDate, shippingAddress, creditCardInfo, email, userId, beasts } = req.body
+    const { orderStatus, orderDate, shippingAddress, creditCardInfo, email, userId, cart } = req.body
     const orderToPost = {
         orderStatus,
         orderDate,
@@ -39,10 +41,33 @@ router.post('/', (req, res, next) => {
         email,
         userId
     }
+    console.log('our cart is ', cart)
+    let beasts = cart.map(item => item.beast)
+    let beastQuantityObj = {}
+    cart.forEach(item => {
+        beastQuantityObj[item.beast.id] = item.quantity
+    })
+    let newOrderReturn
+    console.log('beasts are ', beasts)
     Order.create(orderToPost)
         .then(newOrder => {
-            beasts.forEach(beast => newOrder.addBeast(beast.id))
-            return newOrder
+            newOrderReturn = newOrder
+            return Promise.all(beasts.map(beast => newOrder.addBeast(beast.id)))
+        })
+        .then(() => {
+            return Promise.all(beasts.map(beast => {
+                let foundFixedPrice
+                let beastInstanceId
+                Beast.findById(beast.id)
+                .then(beastInstance => {
+                    foundFixedPrice = beastInstance.price
+                    beastInstanceId = beastInstance.id
+                    return Order_Beasts.findOne({where: {orderId: newOrderReturn.id, beastId: beastInstance.id}})
+                })
+                .then(order_beast => {
+                    order_beast.update({fixedPrice: foundFixedPrice, quantity: beastQuantityObj[beastInstanceId]})
+                })
+            }))
         })
         .then(() => res.status(200).send('SUCCESS!'))
         .catch(next)

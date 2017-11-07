@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {fetchBeasts, updateCart, editCartThunk } from '../store'
 import axios from 'axios'
+import history from '../history'
 
 class CheckoutForm extends Component {
     constructor(props){
@@ -37,8 +38,13 @@ class CheckoutForm extends Component {
         let result = {};
         const items = str.split(' - ')
         items.forEach(item => {
-            let beastIdx = item[0]
-            let quantity = item[4]
+            let beastIdx, quantity
+            if (typeof item[1] !== ' '){
+                beastIdx = item.slice(0, 2)
+            } else beastIdx = item[0]
+            if (typeof item[5] !== undefined) {
+                quantity = item.slice(4, 6)
+            } else quantity = item[4]
             result[beastIdx] = quantity
         })
         return result
@@ -61,15 +67,18 @@ class CheckoutForm extends Component {
             creditCardInfo: e.target.creditCard.value,
             email: e.target.email.value,
             userId: userId,
-            beasts: beastsArr
+            cart: this.props.cart,
         }
+        console.log(this.props.cart)
         axios.post('/api/order', orderToPost)
+            .then(res => {
+                localStorage.setItem('beastsInCart', '')
+                history.push('/ordercomplete')
+            })
             .catch(err => console.error(err))
-
     }
 
     render() {
-        console.log('this.props => ', this.props)
         let orderedItems = this.props.cart.sort((a, b) => a.beast.species > b.beast.species)
         let subtotal = 0
         let fixedSubtotal, tax, fixedTax, total, fixedTotal;
