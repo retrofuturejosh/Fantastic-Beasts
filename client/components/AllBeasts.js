@@ -72,36 +72,36 @@ export class AllBeasts extends Component {
           </select>
         </div>
 
-        <div className="input-group">
+        <form className="form-inline my-2 my-lg-0">
           <input
-            className="form-control"
-            placeholder="What are you looking for?"
+            className="form-control mr-sm-2"
+            placeholder="Watchya lookin for?"
             type="text"
             onChange={this.handleInputChange} />
           <span className="input-group-btn">
             <button type="submit" className="btn btn-outline-secondary">Submit</button>
           </span>
-        </div>
+        </form>
 
         <div className="container">
-          {
-            filterBeasts.length && filterBeasts.map(beast => {
-              return beastsInCart.includes(beast.id) ? (
-                <div key={beast.id} className="row">
-                  <div className="col-md-4">
+          <div className="row">
+            {
+              filterBeasts.length && filterBeasts.map(beast => {
+                return beastsInCart.includes(beast.id) ? (
+                  <div key={beast.id} className="col-md-4">
                     <h4>{beast.species}</h4>
                     <img className="img-fluid" src={beast.imageUrl} />
-                    <div>{beast.price}</div>
-                    <div>{beast.quantity}</div>
-                    <button type="submit" className="btn btn-outline-secondary">Edit</button> 
+                    <div>Price: {beast.price}</div>
+                    <div>Quantity Available: {beast.quantity}</div>
+                    <button type="submit" className="btn btn-outline-secondary">Edit</button>
                     Item already in cart
-                  </div>
-                </div>) :
-                (
-                  <div key={beast.id} className="row">
-                    <div className="col-md-4">
-                    <h4>{beast.species}</h4>
-                    <img className="img-fluid" src={beast.imageUrl} />
+                  </div>) :
+                  (
+                    <div key={beast.id} className="col-md-4">
+                      <h4>{beast.species}</h4>
+                      <img className="img-fluid" src={beast.imageUrl} />
+                      <div>Price: {beast.price}</div>
+                      <div>Quantity Available: {beast.quantity}</div>
                       <form onSubmit={this.handleClick}>
                         <button
                           className="btn btn-outline-secondary"
@@ -118,10 +118,10 @@ export class AllBeasts extends Component {
                           max={beast.quantity} />
                       </form>
                     </div>
-                  </div>
-                )
-            })
-          }
+                  )
+              })
+            }
+          </div>
         </div>
 
         <div>
@@ -179,3 +179,7 @@ export default AllBeastsContainer
 AllBeasts.propTypes = {
   input: PropTypes.string
 }
+
+
+//  form: className="input-group
+// input: "form-control"
