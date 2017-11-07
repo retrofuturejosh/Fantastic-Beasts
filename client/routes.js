@@ -8,7 +8,7 @@ import {Main, Login, Signup, UserHome, singleBeast,allBeasts} from './components
 import CartContainer from './components/cart'
 import AllBeastsContainer from './components/AllBeasts'
 import CheckoutFormContainer from './components/CheckoutForm'
-import {me} from './store'
+import {me,fetchBeasts} from './store'
 
 /**
  * COMPONENT
@@ -68,6 +68,7 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData () {
       dispatch(me())
+      dispatch(fetchBeasts())
     }
   }
 }
