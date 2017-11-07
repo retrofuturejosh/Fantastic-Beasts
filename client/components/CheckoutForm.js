@@ -13,7 +13,7 @@ class CheckoutForm extends Component {
             total: ''
         }
         this.handleCheckout = this.handleCheckout.bind(this)
-        this.parseLocalCart = this.parseLocalCart.bind(this)        
+        this.parseLocalCart = this.parseLocalCart.bind(this)
     }
 
     componentDidMount() {
@@ -21,7 +21,6 @@ class CheckoutForm extends Component {
         let storedCart = localStorage.getItem('beastsInCart')
         if (storedCart) {
             parsedCart = this.parseLocalCart(storedCart)
-            console.log(parsedCart)
             let beastIdArray = Object.keys(parsedCart)
             beastIdArray.forEach(beastId => {
                 if (beastId !== 'undefined'){
@@ -50,15 +49,15 @@ class CheckoutForm extends Component {
         return result
     }
 
-    handleCheckout = (e) => {     
+    handleCheckout = (e) => {
         e.preventDefault()
         let userId
         let beastsArr = this.props.cart.map(item => {
             return item.beast
         })
-        if (this.props.user.id) 
+        if (this.props.user.id)
           userId = this.props.user.id
-        else 
+        else
           userId = null
         let orderToPost = {
             orderStatus: 'Processing',
@@ -69,7 +68,6 @@ class CheckoutForm extends Component {
             userId: userId,
             cart: this.props.cart,
         }
-        console.log(this.props.cart)
         axios.post('/api/order', orderToPost)
             .then(res => {
                 localStorage.setItem('beastsInCart', '')
@@ -99,6 +97,7 @@ class CheckoutForm extends Component {
                     orderedItems.map(item => {
                         return (
                             <li key={item.beast.id}>
+
                                 {
                                     `${item.beast.species} Quantity: ${item.quantity} Price: $${((item.beast.price)/ 100).toFixed(2)} Subtotal: $${((item.beast.price * item.quantity)/ 100).toFixed(2)}`
                                 }
@@ -122,17 +121,17 @@ class CheckoutForm extends Component {
                     this.handleCheckout(e)
                 }}>
                     Email:
-                    <input 
+                    <input
                         type="text"
                         name="email"
                     />
                     Shipping Address:
-                    <input 
+                    <input
                         type="text"
                         name="shippingAddress"
                     />
                     Credit Card:
-                    <input 
+                    <input
                         type="text"
                         name="creditCard"
                     />
@@ -144,9 +143,9 @@ class CheckoutForm extends Component {
 }
 
 const mapState = (state) => {
-    return { 
+    return {
         cart: state.cart,
-        user: state.user 
+        user: state.user
     }
 }
 
