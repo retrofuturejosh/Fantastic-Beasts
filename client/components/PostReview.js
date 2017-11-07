@@ -2,6 +2,7 @@ import React, { Component } from 'React'
 import { connect } from 'react-redux'
 
 import { fetchUserInfo } from '../store/user'
+import { postReviewThunk } from '../store/reviews'
 
 class PostReview extends Component {
   constructor(props) {
@@ -36,9 +37,11 @@ class PostReview extends Component {
       beastId: this.state.beastId,
       userId: this.props.user.id,
       authorId: this.props.user.id,
-      revieweeId: this.props.user.id
+      revieweeId: this.props.user.id,
+      imageUrl: 'TEST URL'
     }
     console.log('HIT SUBMIT BUTTON', reviewToSubmit)
+    this.props.postAReview(reviewToSubmit)
   }
 
   render() {
@@ -108,6 +111,9 @@ const mapDispatch = (dispatch) => {
   return {
     getUserInfo: function (userId) {
       dispatch(fetchUserInfo(userId))
+    },
+    postAReview: function (review) {
+      dispatch(postReviewThunk(review))
     }
   }
 }
