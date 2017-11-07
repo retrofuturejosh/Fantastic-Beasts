@@ -19,4 +19,6 @@ const Review = db.define('review', {
     //we actually should specify always that an image is act an image_url or imageUrl.
   })
   
+  //maybe thing about some model method for average review by product.
+
   module.exports = Review

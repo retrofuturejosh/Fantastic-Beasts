@@ -2,6 +2,9 @@ const router = require('express').Router();
 module.exports = router;
 const Beast = require('../db/models').Beast;
 
+//beasts are products so who should be able to update them or create them??? 
+
+
 router.get('/', (req, res, next) => {
   Beast.findAll({})
     .then(beasts => res.json(beasts))
@@ -22,11 +25,16 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  const { id } = req.params;
-  Beast.findById(id)
-    .then(beast => beast.update(req.body))
-    .then(updatedBeast => res.json(updatedBeast))
-    .catch(next)
+  if(req.user && req.user.isAdmin === true){
+    const { id } = req.params;
+    Beast.findById(id)
+      .then(beast => beast.update(req.body))
+      .then(updatedBeast => res.json(updatedBeast))
+      .catch(next)
+  } else {
+    res.status(401).send('You are unauthorized!!');
+  }
+
 });
 
 router.delete('/:id', (req, res, next) => {
@@ -36,3 +44,5 @@ router.delete('/:id', (req, res, next) => {
     .then(() => res.json({ message: 'Delete Successful' }))
     .catch(next)
 });
+
+

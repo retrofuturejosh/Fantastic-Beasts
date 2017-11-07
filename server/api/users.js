@@ -2,6 +2,8 @@ const router = require('express').Router()
 module.exports = router
 const { User } = require('../db/models')
 
+// /users/:id/checkout
+
 router.get('/', (req, res, next) => {
   User.findAll({
     // explicitly select only the id and email fields - even though

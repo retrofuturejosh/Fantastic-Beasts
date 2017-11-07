@@ -19,6 +19,8 @@ router.get('/:id', (req,res,next) => {
         .catch(next)
 })
 
+//this is fine for now, but realistically we're going to want to create an order (Cart) as soon as a user logs in.
+
 router.post('/', (req, res, next) => {
     Order.create(req.body)
         .then(newOrder => res.json(newOrder))
@@ -44,3 +46,14 @@ router.delete('/:id', (req,res,next) => {
         .catch(next)
 })
 
+// async function sampleFunc(){
+//     try { 
+//         let users = await User.findAll();
+//         //1. cannot user array callback functions. 
+//         for(let i = 0; i < users.length; i++){
+//             let userReview = await Review.findAll({ where: { userId: users[i].id }});
+//         }
+//     } catch(err){
+//         next(err);
+//     }
+// }
