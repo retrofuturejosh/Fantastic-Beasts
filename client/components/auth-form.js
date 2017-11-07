@@ -1,17 +1,30 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
+import axios from 'axios'
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error} = props
-
+  const { name, displayName, handleSubmit, error } = props
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {
+          props.location.pathname === '/signup' &&
+          <div>
+            <div>
+              <label htmlFor="firstName"><small>First Name</small></label>
+              <input name="firstName" type="text" />
+            </div>
+            <div>
+              <label htmlFor="lastName"><small>Last Name</small></label>
+              <input name="lastName" type="text" />
+            </div>
+          </div>
+        }
         <div>
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text" />
@@ -55,12 +68,21 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt) {
+      console.log(evt.target.firstName)
       evt.preventDefault()
+      let firstName, lastName
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      if (evt.target.firstName) {
+        firstName = evt.target.firstName.value
+        lastName = evt.target.lastName.value
+        axios.post('/api/users', { email, password, firstName, lastName })
+          .then(() => dispatch(auth(email, password, 'login')))
+      } else {
+        dispatch(auth(email, password, formName))
+      }
     }
   }
 }

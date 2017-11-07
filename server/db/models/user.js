@@ -3,20 +3,60 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  //is null the right validation / only validation we need? 
+  //null is not the same as empty string.
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  shippingAddress: {
     type: Sequelize.STRING
+  },
+  billingAddress: {
+    type: Sequelize.STRING
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
   salt: {
     type: Sequelize.STRING
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  active: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
+  //ASk yourself if this should be here!
+  //ask if shipping address should be here as well.
+  
 })
 
 module.exports = User
@@ -26,6 +66,10 @@ module.exports = User
  */
 User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt) === this.password
+}
+
+User.prototype.fullName = function () {
+  return `${this.firstName} ${this.lastName}`;
 }
 
 /**
