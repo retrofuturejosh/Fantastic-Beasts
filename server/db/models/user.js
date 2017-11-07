@@ -17,7 +17,7 @@ const User = db.define('user', {
       notEmpty: true
     }
   },
-  //is null the right validation / only validation we need? 
+  //is null the right validation / only validation we need?
   //null is not the same as empty string.
   email: {
     type: Sequelize.STRING,
@@ -56,7 +56,7 @@ const User = db.define('user', {
   }
   //ASk yourself if this should be here!
   //ask if shipping address should be here as well.
-  
+
 })
 
 module.exports = User
@@ -99,3 +99,10 @@ const setSaltAndPassword = user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.beforeBulkCreate((users) => {
+  for (const user of users) {
+    if (user.isAdmin) {
+      setSaltAndPassword
+    }
+  }
+})

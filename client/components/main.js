@@ -11,7 +11,6 @@ import {logout} from '../store'
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  console.log('props', props)
   const {children, handleClick, isLoggedIn} = props
   return (
     <div className="container">

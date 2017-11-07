@@ -56,10 +56,9 @@ export class AllBeasts extends Component {
       return beastItem.beast.id
     })
 
-    let filterBeasts = beasts.beasts.map(beast => {
-      if (beast.species.includes(this.state.input)) return beast
+    let filterBeasts = beasts.beasts.filter(beast => {
+      if (beast.species.toLowerCase().includes(this.state.input.toLowerCase())) return beast
     })
-    filterBeasts = filterBeasts.sort((a, b) => a.species - b.species)
     return (
       <div className="container">
         <div>
@@ -85,14 +84,14 @@ export class AllBeasts extends Component {
 
         <div className="container">
           <div className="row">
-            {
-              filterBeasts.length && filterBeasts.map(beast => {
-                return beastsInCart.includes(beast.id) ? (
-                  <div key={beast.id} className="col-md-4">
+          {
+            filterBeasts.length && filterBeasts.sort((a, b) => a.species - b.species).map(beast => {
+              return beastsInCart.includes(beast.id) ? (
+                <div key={beast.id} className="col-md-4">
                     <h4>{beast.species}</h4>
                     <img className="img-fluid" src={beast.imageUrl} />
-                    <div>Price: {beast.price}</div>
-                    <div>Quantity Available: {beast.quantity}</div>
+                    <div>{beast.price}</div>
+                    <div>{beast.quantity}</div>
                     <button type="submit" className="btn btn-outline-secondary">Edit</button>
                     Item already in cart
                   </div>) :
@@ -118,9 +117,9 @@ export class AllBeasts extends Component {
                           max={beast.quantity} />
                       </form>
                     </div>
-                  )
-              })
-            }
+                )
+               || <p>UNAVAILABLE</p> })
+          }
           </div>
         </div>
 

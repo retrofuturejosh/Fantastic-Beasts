@@ -10,6 +10,7 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db')
+// const {app,createApp,sessionStore} = require('../server/index')
 const {User, Beast, Order, Order_Beasts, Review } = require('../server/db/models')
 
 
@@ -49,7 +50,7 @@ async function seed () {
         email: 'xifeng@xifeng.com',
         shippingAddress:
         '159 fake st, fake, NY, 11145', password: '123',
-        isAdmin: true        
+        isAdmin: true
       }, {
         firstName: 'Jonathan',
         lastName: 'Ahn',
@@ -99,7 +100,7 @@ async function seed () {
         shippingAddress:
         'Central Perk, Central Park, NY, NY, 10012', password: '123',
         isAdmin: false
-      }]),
+      }],{individualHooks: true}),
       Beast.bulkCreate([{
         species: 'Dragon',
         category: 'Fire',
@@ -121,7 +122,7 @@ async function seed () {
         training: 'moderately',
         origin: 'Greece',
         price: 40000,
-        quantity: 100        
+        quantity: 100
       }, {
         species: 'Sea Serpent',
         category: 'Sea',
@@ -220,7 +221,7 @@ async function seed () {
         training: 'moderately',
         origin: 'Europe',
         price: 40000,
-        quantity: 15       
+        quantity: 15
       }, {
         species: 'Hellhound',
         category: 'Fire',
@@ -276,7 +277,7 @@ async function seed () {
         origin: 'Earth',
         price: 5000,
         quantity: 250
-      }])
+      }],{individualHooks: true})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
