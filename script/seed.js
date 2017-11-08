@@ -31,8 +31,8 @@ async function seed () {
         isAdmin: true
       },
       {
-        firstName: 'Annah',
-        lastName: 'Medyuk',
+        firstName: 'Anna',
+        lastName: 'Medyukh',
         email: 'anna@anna.com',
         shippingAddress:
         '345 fake st, fake, NY, 12045', password: '123',

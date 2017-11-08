@@ -13,7 +13,7 @@ export const SingleBeast = (props) => {
 
   return (beast) ? (
    <div className="container">
-     <img className="img-fluid" src={`${beast.imageUrl || "favicon.ico"}`} width="128" height="128"/>
+     <img src={`${beast.imageUrl || "favicon.ico"}`} width="128" height="128"/>
      <h4>This Beast is a {`${beast.species}`} </h4>
      <p>Category : {`${beast.category}`} </p>
      <p>Danger : {`${beast.danger}`} </p>

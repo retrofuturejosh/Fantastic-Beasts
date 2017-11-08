@@ -20,11 +20,11 @@ class UserHome extends Component {
     const { firstName, lastName } = this.props.userInfo
     const { orders, reviews } = this.props.userInfo
 
-    return !(orders)?(<h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
-        <div>
+    return !(orders)?(
+      <h3>Welcome, {`${firstName} ${lastName}!`}</h3>):(
+        <div className="container">
           <h3>Welcome, {`${firstName} ${lastName}!`}</h3>
-          <div>
-             <h4>Your Order History : </h4>
+            <h4>Your Order History : </h4>
             {
               orders && orders.map(order => {
                 this.total = 0
@@ -32,14 +32,14 @@ class UserHome extends Component {
                   <div key={order.id}>
                     <p>Order Status: {order.orderStatus}</p>
                     <p>Order Date: {order.orderDate}</p>
-                    <div>Beasts:
+                    <div className="row">Beasts:
                       {
                          order.beasts.length&&order.beasts.map(beast =>{
                             let price = +beast.order_beast.fixedPrice
                             let qty = +beast.order_beast.quantity
                             this.total += price * qty
                             return (
-                              <ul key={beast.id}>
+                              <ul key={beast.id} className="col-md-4">
                                 <Link to={`/singleBeast/${+beast.id}`}>
                                   <li>Beast TYPE: {beast.species}</li>
                                 </Link>
@@ -57,26 +57,29 @@ class UserHome extends Component {
                 )
               })
             }
-          </div>
-          <div>
+            <div>
             <div>
                 {
                   <Link to="/postreview"><h5>LEAVE A REVIEW </h5></Link>
                 }
             </div>
-            <div>
+            <div className="row">
               <h5>ALL REVIEWS: </h5>
                 {
                  reviews.length&&reviews.map(review => {
                   return(
-                    <div key={review.id}>
-                      <h6>TITLE: {review.title}</h6>
-                      <p>STARS: {review.stars}</p>
-                      <p>CONTENT: {review.content}</p>
-                      <img src={review.imageUrl || "favicon.ico"}/>
-                      <Link to={`/singleBeast/${review.beastId}`}>
-                        <p>{review.reviewee.species}</p>
-                      </Link>
+                    <div key={review.id} className="col-sm-6">
+                      <div className="card">
+                        <div className="card-block">
+                          <h6 className="card-title">TITLE: {review.title}</h6>
+                          <p>STARS: {review.stars}</p>
+                          <p className="card-text">CONTENT: {review.content}</p>
+                          <img src={review.imageUrl || "favicon.ico"}/>
+                          <Link to={`/singleBeast/${review.beastId}`}>
+                            <p>{review.reviewee.species}</p>
+                          </Link>
+                        </div>
+                      </div>
                     </div>
                   )
                  })
