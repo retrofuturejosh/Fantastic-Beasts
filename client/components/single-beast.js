@@ -11,10 +11,10 @@ export const SingleBeast = (props) => {
   const filteredBeast = singleBeast.beasts.length&&singleBeast.beasts.filter(beast => beastId === +beast.id)
   const beast = filteredBeast[0]
 
-  return (beast)?(
-   <div>
-     <img src={`${beast.imageUrl || "favicon.ico"}`} width="128" height="128"/>
-     <p>Current Beast is {`${beast.species}`} </p>
+  return (beast) ? (
+   <div className="container">
+     <img className="img-fluid" src={`${beast.imageUrl || "favicon.ico"}`} width="128" height="128"/>
+     <h4>This Beast is a {`${beast.species}`} </h4>
      <p>Category : {`${beast.category}`} </p>
      <p>Danger : {`${beast.danger}`} </p>
      <p>Friendliness : {`${beast.friendliness}`} </p>
@@ -26,7 +26,7 @@ export const SingleBeast = (props) => {
      <p>Breeder Info : {`${beast.breederInfo}`} </p>
      <p>Quantity : {`${beast.quantity || "N/A"}`} </p>
    </div>
-  ):(<div>nothing</div>)
+  ) : (<div>nothing</div>)
 }
 
 /**
@@ -34,8 +34,8 @@ export const SingleBeast = (props) => {
  */
   const mapState = (state, ownProps) => {
     return {
-      singleBeast:state.beasts,
-      beastId:+ownProps.match.params.id
+      singleBeast: state.beasts,
+      beastId: +ownProps.match.params.id
     }
   }
   export default connect(mapState)(SingleBeast)
