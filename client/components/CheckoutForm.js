@@ -123,18 +123,31 @@ class CheckoutForm extends Component {
         return (
             <div>
                 <h3>Items in Cart:</h3>
-                {
-                    orderedItems.map(item => {
-                        return (
-                            <li key={item.beast.id}>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Species</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            {
+                                orderedItems.map(item => {
+                                    return (
+                                        <li key={item.beast.id}>
 
-                                {
-                                    `${item.beast.species} Quantity: ${item.quantity} Price: $${((item.beast.price)/ 100).toFixed(2)} Subtotal: $${((item.beast.price * item.quantity)/ 100).toFixed(2)}`
-                                }
-                            </li>
-                        )
-                    })
-                }
+                                            {
+                                                `${item.beast.species} Quantity: ${item.quantity} Price: $${((item.beast.price)/ 100).toFixed(2)} Subtotal: $${((item.beast.price * item.quantity)/ 100).toFixed(2)}`
+                                            }
+                                        </li>
+                                    )
+                                })
+                            }
+                            </tr>
+                        </tbody>
                 <h4>Subtotal: </h4>
                 {
                     `$${!fixedSubtotal ? 0 : fixedSubtotal}`
@@ -151,6 +164,7 @@ class CheckoutForm extends Component {
                 {
                     !this.state.promoCode ? `$${!fixedTotal ? 0 : fixedTotal}` : `${fixedTotal - 11.08}`
                 }
+                </table>
                 <form onSubmit={(e) => {
                     this.handleCheckout(e)
                 }}>
