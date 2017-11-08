@@ -8,6 +8,7 @@ import { Main, Login, Signup, UserHome, singleBeast, allBeasts, PostReviewContai
 import CartContainer from './components/cart'
 import AllBeastsContainer from './components/AllBeasts'
 import CheckoutFormContainer from './components/CheckoutForm'
+import PostedReview from './components/postedreview'
 import {me,fetchBeasts} from './store'
 
 /**
@@ -37,6 +38,7 @@ class Routes extends Component {
             <Route path="/cart" component={CartContainer} />
             <Route exact path="/checkout" component={CheckoutFormContainer} />
             <Route exact path="/ordercomplete" component={OrderCompleteContainer} />
+            <Route exact path="/postedreview" component={PostedReview} />
             {/* <Route path="/cart" component={CartContainer} /> */}
             {
               isLoggedIn &&
@@ -46,6 +48,7 @@ class Routes extends Component {
                 <Route path="/cart" component={CartContainer} />
                 <Route path="/postreview" component={PostReviewContainer} />
                 <Route path="/ordercomplete" component={UserHome} />
+                <Route exact path="/postedreview" component={PostedReview} />
               </Switch>
             }
             {/* Displays our Login component as a fallback */}
