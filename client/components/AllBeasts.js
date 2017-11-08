@@ -135,8 +135,8 @@ export class AllBeasts extends Component {
                           max={beast.quantity} />
                       </form>
                     </div>
-                )
-               || <p>UNAVAILABLE</p> })
+                || <p>UNAVAILABLE</p> )
+               })
           }
           </div>
         </div>
