@@ -103,31 +103,31 @@ class Cart extends Component {
     render() {
         let orderedItems = this.props.cart.sort((a, b) => a.beast.species > b.beast.species)
         return (
-            <div>
-                <ul>
+            <div className="container">
+                <div>
                     {orderedItems.map(item => {
                             return (
-                                <div key={item.beast.id}>
-                                    <li>
-                                        {item.beast.species} quantity: <input
+                                <ul key={item.beast.id}>
+                                    <h5>{item.beast.species}</h5>
+                                    <li>quantity: <input
                                             placeholder={item.quantity}
                                             type="number"
                                             name="quantity"
                                             min="1"
                                             max={item.beast.quantity}
                                             onChange={(e) => this.handleChange(e, item.beast.id, item.beast.quantity)}/>
-                                        <button disabled={this.state.badQuantity[item.beast.id]} onClick={(e) => this.handleEdit(e, item.beast.id)}>edit item quantity</button>
-                                        <button onClick={(e) => this.handleDelete(e, item.beast.id)}>remove from cart</button>
+                                    </li>
+                                    <li><button disabled={this.state.badQuantity[item.beast.id]} onClick={(e) => this.handleEdit(e, item.beast.id)}>edit item quantity</button></li>
+                                    <li><button onClick={(e) => this.handleDelete(e, item.beast.id)}>remove from cart</button></li>
                                         {
                                             this.state.badQuantity[item.beast.id] &&
                                             <div style={{ color: 'red'}}>The quantity can not exceed {item.beast.quantity}</div>
                                         }
-                                    </li>
-                                </div>
+                                    </ul>
                         )
                     })
                 }
-                </ul>
+                </div>
                 <Link to="/checkout">
                     <button type="button">CHECKOUT</button>
                 </Link>
