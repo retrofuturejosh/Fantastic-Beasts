@@ -107,7 +107,7 @@ export class AllBeasts extends Component {
             filterBeasts.length && filterBeasts.sort((a, b) => a.species - b.species).map(beast => {
               return beastsInCart.includes(beast.id) ? (
                 <div key={beast.id} className="col-md-4">
-                    <h4>{beast.species}</h4>
+                    <Link key={ beast.id } to={`/singleBeast/${beast.id}`}><h4>{beast.species}</h4></Link>
                     <img className="img-fluid" src={beast.imageUrl} />
                     <div>Price: {beast.price}</div>
                     <div>Quantity Available: {beast.quantity}</div>
@@ -115,7 +115,7 @@ export class AllBeasts extends Component {
                   </div>) :
                   (
                     <div key={beast.id} className="col-md-4">
-                      <h4>{beast.species}</h4>
+                      <Link key={ beast.id } to={`/singleBeast/${beast.id}`}><h4>{beast.species}</h4></Link>
                       <img className="img-fluid" src={beast.imageUrl} />
                       <div>Price: {beast.price}</div>
                       <div>Quantity Available: {beast.quantity}</div>
@@ -135,8 +135,8 @@ export class AllBeasts extends Component {
                           max={beast.quantity} />
                       </form>
                     </div>
-                )
-               || <p>UNAVAILABLE</p> })
+                || <p>UNAVAILABLE</p> )
+               })
           }
           </div>
         </div>

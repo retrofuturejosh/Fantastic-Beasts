@@ -1,5 +1,6 @@
 import React, { Component } from 'React'
 import { connect } from 'react-redux'
+import history from '../history'
 
 import { fetchUserInfo } from '../store/user'
 import { postReviewThunk } from '../store/reviews'
@@ -42,6 +43,7 @@ class PostReview extends Component {
     }
     console.log('HIT SUBMIT BUTTON', reviewToSubmit)
     this.props.postAReview(reviewToSubmit)
+    history.push('/postedreview')
   }
 
   render() {
